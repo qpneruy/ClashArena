@@ -1,0 +1,87 @@
+package org.qpneruy.clashArena;
+
+import com.alessiodp.parties.api.Parties;
+import com.alessiodp.parties.api.interfaces.PartiesAPI;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.qpneruy.clashArena.commands.ClashArenaCmd;
+import org.qpneruy.clashArena.commands.ClashArenaCompleter;
+import org.qpneruy.clashArena.menu.manager.MenuManager;
+import org.qpneruy.clashArena.menu.events.MenuRegistry;
+import org.qpneruy.clashArena.utils.ClashArenaLogger;
+import org.qpneruy.clashArena.utils.enums.ConsoleColor;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public final class ClashArena extends JavaPlugin {
+    public static ClashArena instance;
+    public static PartiesAPI parties;
+
+    public static MenuManager menuManager;
+    public static MenuRegistry menuRegister;
+    @Override
+    public void onEnable() {
+        instance = this;
+        ClashArenaLogger.info( "ClashArena has been enabled!");
+
+        registerCommands();
+        intializeService();
+        hook();
+    }
+
+    private void intializeService() {
+        menuManager = new MenuManager();
+        menuRegister = new MenuRegistry();
+    }
+
+    private void registerCommands() {
+        new ClashArenaCmd(this);
+        new ClashArenaCompleter(this);
+    }
+
+    private void hook() {
+        Map<String, Boolean> pluginsToCheck = new LinkedHashMap<>() {{
+            put("PlaceholderAPI", false);
+            put("ItemsAdder", false);
+            put("MMOItems", false);
+            put("MythicMobs", false);
+            put("Parties", true);
+            put("FastAsyncWorldEdit", true);
+            put("WorldEdit", true);
+        }};
+
+        for (Map.Entry<String, Boolean> entry : pluginsToCheck.entrySet()) {
+            String pluginName = entry.getKey();
+            boolean isDepend = entry.getValue();
+
+            Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
+            if (plugin != null && plugin.isEnabled()) {
+                ClashArenaLogger.info(pluginName + ": " + ConsoleColor.GREEN + "hooked!");
+
+                if (isDepend) {
+                    switch (pluginName) {
+                        case "Parties" -> parties = Parties.getApi();
+                        case "FastAsyncWorldEdit", "WorldEdit" -> {}
+                    }
+                }
+            } else {
+                ClashArenaLogger.info(pluginName + ": " + ConsoleColor.RED + "not found!");
+            }
+        }
+    }
+
+    @Override
+    public void onDisable() {
+
+    }
+
+    private String getVersion() {
+        return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+    }
+
+    private Class<?> getNMSClass(String name) throws ClassNotFoundException {
+        String fullName = "net.minecraft.server." + getVersion() + "." + name.replace('.', '/');
+        return Class.forName(fullName);
+    }
+}

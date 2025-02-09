@@ -1,0 +1,14 @@
+name: ClashArena
+version: '1.0'
+main: org.qpneruy.clashArena.ClashArena
+api-version: '1.20'
+authors: [ qpneruy ]
+description: Minecraft RPG servers that enables thrilling PvP battles between players.
+depend: [WorldEdit, Parties]
+softdepend: [PlaceholderAPI, ItemsAdder, MMOItems, MythicMobs]
+
+commands:
+  ClashArena:
+    description: "yep, ClashArena"
+    aliases: [ClashArena, cla ]
+    permission: clasharena.MatchMaking
