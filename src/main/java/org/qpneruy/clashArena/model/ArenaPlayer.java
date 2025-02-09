@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 import static org.qpneruy.clashArena.model.Rank.UNRANKED;
-
+//PLayer for plugin
 public class ArenaPlayer {
     @Getter private final UUID UniqueId;
     @Getter private final String Name;
