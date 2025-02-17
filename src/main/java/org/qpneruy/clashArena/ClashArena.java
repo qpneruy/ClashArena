@@ -1,12 +1,17 @@
 package org.qpneruy.clashArena;
 
+
+import lombok.Getter;
+import me.clip.placeholderapi.PlaceholderAPI;
 import com.alessiodp.parties.api.Parties;
 import com.alessiodp.parties.api.interfaces.PartiesAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.qpneruy.clashArena.Party.PartyManager;
 import org.qpneruy.clashArena.commands.ClashArenaCmd;
 import org.qpneruy.clashArena.commands.ClashArenaCompleter;
+import org.qpneruy.clashArena.menu.Gui.mainMenu.MainMenu;
 import org.qpneruy.clashArena.menu.manager.MenuManager;
 import org.qpneruy.clashArena.menu.events.MenuRegistry;
 import org.qpneruy.clashArena.utils.ClashArenaLogger;
@@ -18,8 +23,11 @@ public final class ClashArena extends JavaPlugin {
     public static ClashArena instance;
     public static PartiesAPI parties;
 
-    public static MenuManager menuManager;
-    public static MenuRegistry menuRegister;
+    @Getter private MenuManager menuManager;
+    @Getter private MenuRegistry menuRegister;
+    @Getter private PartyManager partyManager;
+    @Getter private MainMenu mainMenu;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -28,11 +36,16 @@ public final class ClashArena extends JavaPlugin {
         registerCommands();
         intializeService();
         hook();
+
+        // Main Menu does not have a menu owner.
+        mainMenu = new MainMenu(null);
+        partyManager.registerListenerMenu(mainMenu);
     }
 
     private void intializeService() {
         menuManager = new MenuManager();
         menuRegister = new MenuRegistry();
+        partyManager = new PartyManager();
     }
 
     private void registerCommands() {

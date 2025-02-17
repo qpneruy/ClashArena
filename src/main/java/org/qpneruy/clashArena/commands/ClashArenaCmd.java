@@ -31,11 +31,11 @@ public class ClashArenaCmd implements CommandExecutor {
         }
 
         switch (args[0]) {
-            case "leader" -> ClashArena.menuManager.openMenu(player, Menu.LEADER);
-            case "member" -> ClashArena.menuManager.openMenu(player, Menu.MEMBER);
-            case "setting" -> ClashArena.menuManager.openMenu(player, Menu.SETTING);
-            case "request" -> ClashArena.menuManager.openMenu(player, Menu.REQUEST);
-            case "main" -> ClashArena.menuManager.openMenu(player, Menu.MAIN);
+            case "leader" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.LEADER);
+            case "member" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.MEMBER);
+            case "setting" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.SETTING);
+            case "request" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.REQUEST);
+            case "main" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.MAIN);
             default -> {
                 player.sendMessage("§cInvalid argument. Usage: /ClashArena <leader/member/setting/request>");
                 return true;

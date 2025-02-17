@@ -1,6 +1,7 @@
 package org.qpneruy.clashArena.menu.manager;
 
 import org.bukkit.entity.Player;
+import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.menu.Gui.Leader;
 import org.qpneruy.clashArena.menu.Gui.Member;
 import org.qpneruy.clashArena.menu.Gui.Request;
@@ -16,7 +17,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.qpneruy.clashArena.ClashArena.menuRegister;
 
 public class MenuManager {
     private final Map<UUID, Map<Menu, AbstractMenu>> ACTIVE_MENUS = new ConcurrentHashMap<>();
@@ -37,11 +37,11 @@ public class MenuManager {
             AbstractMenu newMenu = createMenu(player, menu);
             if (newMenu == null) return;
 
-            ClashArenaLogger.info("created new menu");
+            if (menu != Menu.MAIN) ClashArenaLogger.info("created new menu");
 
             player.openInventory(newMenu.getInventory());
             playerMenus.put(menu, newMenu);
-            menuRegister.register(newMenu);
+            ClashArena.instance.getMenuRegister().register(newMenu);
         }
         player.openInventory(playerMenus.get(menu).getInventory());
     }
@@ -64,12 +64,12 @@ public class MenuManager {
 
             if (playerMenus.containsKey(menuKey)) {
                 AbstractMenu temp = playerMenus.get(menuKey);
-                menuRegister.unregister(temp);
+                ClashArena.instance.getMenuRegister().unregister(temp);
                 temp.dispose();
             }
 
             playerMenus.put(menuKey, newMenu);
-            menuRegister.register(newMenu);
+            ClashArena.instance.getMenuRegister().register(newMenu);
         }
     }
 
@@ -88,7 +88,7 @@ public class MenuManager {
         AbstractMenu menuToDispose = playerMenus.get(menu);
         if (menuToDispose == null) return;
 
-        menuRegister.unregister(menuToDispose);
+        ClashArena.instance.getMenuRegister().unregister(menuToDispose);
         playerMenus.remove(menu);
     }
 
@@ -121,7 +121,7 @@ public class MenuManager {
             case MEMBER -> new Member(owner);
             case SETTING -> new Setting(owner);
             case REQUEST -> new Request(owner);
-            case MAIN -> new MainMenu(owner);
+            case MAIN -> ClashArena.instance.getMainMenu();
             default -> null;
         };
     }

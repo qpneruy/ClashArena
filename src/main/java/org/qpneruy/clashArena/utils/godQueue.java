@@ -1,6 +1,8 @@
 package org.qpneruy.clashArena.utils;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.qpneruy.clashArena.menu.Gui.mainMenu.UpdateMethod;
 
 import java.util.*;
 
@@ -15,13 +17,18 @@ public class godQueue<T> implements Iterable<T> {
     private final Map<T, Integer> elementIndices;
     private int size = 0;
 
+    // Record the previous action for add, remove method
+    @Getter private UpdateMethod method;
+
     public godQueue() {
         this(16);
+        method = UpdateMethod.ALL;
     }
 
     public godQueue(int initialCapacity) {
         this.elements = new ArrayList<>(initialCapacity);
         this.elementIndices = new HashMap<>(initialCapacity);
+        method = UpdateMethod.ALL;
     }
 
     /**
@@ -37,6 +44,7 @@ public class godQueue<T> implements Iterable<T> {
         elements.add(element);
         elementIndices.put(element, size);
         size++;
+        method = UpdateMethod.NEW;
         return true;
     }
 
@@ -62,6 +70,7 @@ public class godQueue<T> implements Iterable<T> {
         elements.remove(lastIndex);
         elementIndices.remove(element);
         size--;
+        method = UpdateMethod.REMOVE;
         return true;
     }
 

@@ -9,13 +9,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
+import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.menu.events.InventoryHandler;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.qpneruy.clashArena.ClashArena.menuManager;
 
 /**
  * Abstract base class for creating custom menus.
@@ -94,7 +93,7 @@ public abstract class AbstractMenu implements InventoryHandler {
             buttons.clear();
             buttons = null;
         }
-        menuManager.disposeMenu(this.menuOwner, this.MenuType);
+        ClashArena.instance.getMenuManager().disposeMenu(this.menuOwner, this.MenuType);
 
         this.MenuType = null;
         this.menuOwner = null;

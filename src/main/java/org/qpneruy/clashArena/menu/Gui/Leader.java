@@ -1,7 +1,6 @@
 package org.qpneruy.clashArena.menu.Gui;
 
 import com.alessiodp.parties.api.interfaces.Party;
-import com.alessiodp.parties.api.interfaces.PartyPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -10,13 +9,13 @@ import org.qpneruy.clashArena.menu.core.AbstractMenu;
 import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.menu.core.MenuButton;
 import org.qpneruy.clashArena.menu.enums.Visibility;
+import org.qpneruy.clashArena.menu.manager.MenuManager;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import static org.bukkit.Material.*;
-import static org.qpneruy.clashArena.ClashArena.menuManager;
 import static org.qpneruy.clashArena.ClashArena.parties;
 import static org.qpneruy.clashArena.menu.InventoryUtils.createItem;
 import static org.qpneruy.clashArena.menu.InventoryUtils.setPane;
@@ -26,12 +25,14 @@ public class Leader extends AbstractMenu {
     private Party party;
     protected Visibility visibility = Visibility.PRIVATE;
     protected Map<Menu, AbstractMenu> SubMenus = new HashMap<>();
+    protected final MenuManager menuManager;
 
     public Leader(Player menuOwner) {
         super(Menu.LEADER, menuOwner,27,"Leader");
+        menuManager = ClashArena.instance.getMenuManager();
         SubMenus.put(Menu.SETTING, new Setting(menuOwner));
         SubMenus.put(Menu.REQUEST, new Request(menuOwner));
-        ClashArena.parties.createParty(menuOwner.getName(), parties.getPartyPlayer(menuOwner.getUniqueId()));
+
         //Import Submenus to the menuManager for easy access and reduce memory leak issue
         menuManager.importMenu(menuOwner, SubMenus);
         this.menuOwner = menuOwner;
@@ -46,10 +47,9 @@ public class Leader extends AbstractMenu {
         party = parties.getParty(ownerId);
 
         if (party == null) {
-            final PartyPlayer partyPlayer = parties.getPartyPlayer(ownerId);
-            parties.createParty(menuOwner.getName(), partyPlayer);
+            ClashArena.instance.getPartyManager().createParty(menuOwner);
             party = parties.getParty(ownerId);
-        }
+        } else ClashArena.instance.getPartyManager().importParty(party);
     }
 
     /**
@@ -77,7 +77,8 @@ public class Leader extends AbstractMenu {
                     menuManager.openMenu((Player) event.getWhoClicked(), Menu.MAIN); dispose();
 
                     //Dispose all submenus
-                    this.dispose(); SubMenus.forEach((menu, abstractMenu) -> abstractMenu.dispose());
+                    this.dispose(); ClashArena.instance.getPartyManager().removeParty(party);
+                    SubMenus.forEach((menu, abstractMenu) -> abstractMenu.dispose());
                 }).build());
 
         buttons.put(24, new MenuButton.Builder()
