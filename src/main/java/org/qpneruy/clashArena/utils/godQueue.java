@@ -19,6 +19,7 @@ public class godQueue<T> implements Iterable<T> {
 
     // Record the previous action for add, remove method
     @Getter private UpdateMethod method;
+    @Getter private int removedIndex;
 
     public godQueue() {
         this(16);
@@ -71,6 +72,7 @@ public class godQueue<T> implements Iterable<T> {
         elementIndices.remove(element);
         size--;
         method = UpdateMethod.REMOVE;
+        removedIndex = index;
         return true;
     }
 

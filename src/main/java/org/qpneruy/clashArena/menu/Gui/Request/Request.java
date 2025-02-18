@@ -1,4 +1,4 @@
-package org.qpneruy.clashArena.menu.Gui;
+package org.qpneruy.clashArena.menu.Gui.Request;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -32,7 +32,6 @@ public class Request extends AbstractMenu {
         setPane(gui, new int[]{20, 24}, Material.OAK_SIGN);
         setPane(gui, new int[]{21, 23}, Material.GRINDSTONE);
 
-        buttonMap();
     }
 
     @Override

@@ -34,8 +34,6 @@ public class Setting extends AbstractMenu {
 
         int[] GRINDSTONES = {3, 4, 5, 21, 22, 23};
         setPane(gui, GRINDSTONES, Material.GRINDSTONE);
-
-        buttonMap();
     }
 
     @Override

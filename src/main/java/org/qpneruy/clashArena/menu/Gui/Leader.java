@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.qpneruy.clashArena.ClashArena;
+import org.qpneruy.clashArena.menu.Gui.Request.Request;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
 import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.menu.core.MenuButton;
@@ -35,9 +36,9 @@ public class Leader extends AbstractMenu {
 
         //Import Submenus to the menuManager for easy access and reduce memory leak issue
         menuManager.importMenu(menuOwner, SubMenus);
-        this.menuOwner = menuOwner;
         partyCreatorHelper();
     }
+    //TODO: Party 4 người đeo cho ghép trận, nếu là import. Party tạo mới thì bắt sự kiện đeo cho thêm/mời người khác
 
     /**
      * CreateParty with case check, is player already have party or not\
@@ -48,10 +49,13 @@ public class Leader extends AbstractMenu {
 
         if (party == null) {
             ClashArena.instance.getPartyManager().createParty(menuOwner);
-            party = parties.getParty(ownerId);
+            party = parties.getPartyOfPlayer(ownerId);
         } else ClashArena.instance.getPartyManager().importParty(party);
     }
 
+    public void test(Player player) {
+        menuOwner.sendMessage("Received join request from " + player.getName());
+    }
     /**
      * Decorates the menu with buttons and other elements.
      */
@@ -66,7 +70,6 @@ public class Leader extends AbstractMenu {
 
         int[] OAKSINGS = {1, 4, 7};
         setPane(gui, OAKSINGS, OAK_SIGN);
-        buttonMap();
     }
 
     @Override
@@ -74,11 +77,11 @@ public class Leader extends AbstractMenu {
         buttons.put(20, new MenuButton.Builder()
                 .icon(createItem(RED_STAINED_GLASS_PANE, "§c§lThoát Nhóm"))
                 .onClick(event -> {
-                    menuManager.openMenu((Player) event.getWhoClicked(), Menu.MAIN); dispose();
+                    menuManager.openMenu((Player) event.getWhoClicked(), Menu.MAIN);
 
                     //Dispose all submenus
-                    this.dispose(); ClashArena.instance.getPartyManager().removeParty(party);
-                    SubMenus.forEach((menu, abstractMenu) -> abstractMenu.dispose());
+                    ClashArena.instance.getPartyManager().removeParty(party);
+                    SubMenus.forEach((menu, abstractMenu) -> abstractMenu.dispose()); dispose();
                 }).build());
 
         buttons.put(24, new MenuButton.Builder()

@@ -50,12 +50,10 @@ public abstract class AbstractMenu implements InventoryHandler {
     /**
      * Initializes the menu by decorating it and registering it with the MenuRegistry.
      */
-    private void initialize() {
-        decorate();
-    }
+    private void initialize() {decorate(); buttonMap();}
 
     /**
-     * Updates the button in the specified slot. The change in the ButtonMap is not applied automatically.
+     * Updates the button in the specified slot.
      *
      * @param slot the slot to update, referenced from the hashmap
      * @param newicon the new icon to set
