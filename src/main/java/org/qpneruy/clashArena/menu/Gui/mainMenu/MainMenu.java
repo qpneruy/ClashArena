@@ -1,21 +1,21 @@
 package org.qpneruy.clashArena.menu.Gui.mainMenu;
 
 import com.alessiodp.parties.api.interfaces.Party;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.qpneruy.clashArena.ClashArena;
-import org.qpneruy.clashArena.menu.Gui.Leader;
+import org.qpneruy.clashArena.menu.Gui.leader.Leader;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
-import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.menu.core.MenuButton;
-import org.qpneruy.clashArena.menu.manager.Pagination;
-import org.qpneruy.clashArena.utils.ClashArenaLogger;
+import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.utils.godQueue;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 import static org.qpneruy.clashArena.menu.InventoryUtils.createItem;
 import static org.qpneruy.clashArena.menu.InventoryUtils.setPane;
@@ -73,26 +73,46 @@ public class MainMenu extends AbstractMenu {
     }
 
     private void updateMenu() {
-       if (parties.getMethod() == UpdateMethod.NEW) {
-           int current_idx = 0;
-           for (Party party : parties) {
-               if (current_idx >= availableSlots.size()) break;
-               MenuButton button = RoomButtonCreator(parties.get(current_idx));
-               buttons.put(availableSlots.get(current_idx), button);
-               this.getInventory().setItem(availableSlots.get(current_idx), RoomButtonCreator(party).getIcon());
-               current_idx++;
-           }
-           return;
-       }
-       if (parties.getMethod() == UpdateMethod.REMOVE) {
-           int removedIndex = parties.getRemovedIndex();
-           this.getInventory().clear(availableSlots.get(removedIndex));
-           for (int i = removedIndex; i < parties.size(); i++) {
-               this.getInventory().setItem(availableSlots.get(i), RoomButtonCreator(parties.get(i)).getIcon());
-           }
-           this.getInventory().clear(availableSlots.get(parties.size()));
-       }
-       this.buttonMap();
+        if (parties.getMethod() == UpdateMethod.NEW) {
+            // Only add the newest party to the next available slot
+            int newPartyIndex = parties.size() - 1;
+            if (newPartyIndex < availableSlots.size()) {
+                Party newParty = parties.get(newPartyIndex);
+                int slot = availableSlots.get(newPartyIndex);
+
+                MenuButton button = RoomButtonCreator(newParty);
+                buttons.put(slot, button);
+                this.getInventory().setItem(slot, button.getIcon());
+            }
+        } else if (parties.getMethod() == UpdateMethod.REMOVE) {
+            int removedIndex = parties.getRemovedIndex();
+
+            // Clear the slot where a party was removed
+            if (removedIndex < availableSlots.size()) {
+                int removedSlot = availableSlots.get(removedIndex);
+                this.getInventory().clear(removedSlot);
+                buttons.remove(removedSlot);
+
+                // Shift all subsequent parties up by one slot
+                for (int i = removedIndex; i < parties.size(); i++) {
+                    int slot = availableSlots.get(i);
+                    Party party = parties.get(i);
+
+                    MenuButton button = RoomButtonCreator(party);
+                    buttons.put(slot, button);
+                    this.getInventory().setItem(slot, button.getIcon());
+                }
+
+                // Clear the last slot that should now be empty
+                if (parties.size() < availableSlots.size()) {
+                    int lastSlot = availableSlots.get(parties.size());
+                    this.getInventory().clear(lastSlot);
+                    buttons.remove(lastSlot);
+                }
+            }
+        }
+
+        this.buttonMap();
     }
 
     private MenuButton RoomButtonCreator(Party party) {

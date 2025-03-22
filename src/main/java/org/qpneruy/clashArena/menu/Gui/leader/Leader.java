@@ -1,4 +1,4 @@
-package org.qpneruy.clashArena.menu.Gui;
+package org.qpneruy.clashArena.menu.Gui.leader;
 
 import com.alessiodp.parties.api.interfaces.Party;
 import org.bukkit.entity.Player;
@@ -6,6 +6,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.menu.Gui.Request.Request;
+import org.qpneruy.clashArena.menu.Gui.Setting;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
 import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.menu.core.MenuButton;
@@ -37,6 +38,8 @@ public class Leader extends AbstractMenu {
         //Import Submenus to the menuManager for easy access and reduce memory leak issue
         menuManager.importMenu(menuOwner, SubMenus);
         partyCreatorHelper();
+
+        AbstractPlayerMenu a = new AbstractPlayerMenu(this.inventory, this.buttons, party, menuOwner.getName());
     }
     //TODO: Party 4 người đeo cho ghép trận, nếu là import. Party tạo mới thì bắt sự kiện đeo cho thêm/mời người khác
 

@@ -2,7 +2,7 @@ package org.qpneruy.clashArena.menu.manager;
 
 import org.bukkit.entity.Player;
 import org.qpneruy.clashArena.ClashArena;
-import org.qpneruy.clashArena.menu.Gui.Leader;
+import org.qpneruy.clashArena.menu.Gui.leader.Leader;
 import org.qpneruy.clashArena.menu.Gui.Member;
 import org.qpneruy.clashArena.menu.Gui.Request.Request;
 import org.qpneruy.clashArena.menu.Gui.Setting;

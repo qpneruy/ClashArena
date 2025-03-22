@@ -63,6 +63,10 @@ public abstract class AbstractMenu implements InventoryHandler {
         inventory.setItem(slot, button.getIcon());
     }
 
+    public void removeButton(int slot) {
+        this.buttons.remove(slot);
+    }
+    
     @Override
     public void onClick(InventoryClickEvent event) {
         event.setCancelled(true);
