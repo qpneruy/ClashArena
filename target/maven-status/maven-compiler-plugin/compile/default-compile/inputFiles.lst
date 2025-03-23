@@ -2,6 +2,9 @@
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/Party/PartyManager.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/commands/ClashArenaCmd.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/commands/ClashArenaCompleter.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/data/ArenaPlayerManager.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/data/ArenaPlayerRepository.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/data/DatabaseManager.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/events/LeftEvent.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/Member.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/Request/Request.java
@@ -24,6 +27,8 @@
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/manager/Pagination.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/model/ArenaPlayer.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/model/Rank.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/model/RankOperation.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/model/ReadyStatus.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/skin/ElybySkin.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/skin/MojangSkin.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/skin/SkullUtils.java

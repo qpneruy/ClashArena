@@ -28,18 +28,19 @@ public class Leader extends AbstractMenu {
     protected Visibility visibility = Visibility.PRIVATE;
     protected Map<Menu, AbstractMenu> SubMenus = new HashMap<>();
     protected final MenuManager menuManager;
+    private final AbstractPlayerMenu playerManager;
 
     public Leader(Player menuOwner) {
         super(Menu.LEADER, menuOwner,27,"Leader");
+        partyCreatorHelper();
+        playerManager = new AbstractPlayerMenu(this.inventory, this.buttons, party, menuOwner.getName());
         menuManager = ClashArena.instance.getMenuManager();
         SubMenus.put(Menu.SETTING, new Setting(menuOwner));
-        SubMenus.put(Menu.REQUEST, new Request(menuOwner));
-
+        SubMenus.put(Menu.REQUEST, new Request(menuOwner, playerManager));
         //Import Submenus to the menuManager for easy access and reduce memory leak issue
         menuManager.importMenu(menuOwner, SubMenus);
-        partyCreatorHelper();
 
-        AbstractPlayerMenu a = new AbstractPlayerMenu(this.inventory, this.buttons, party, menuOwner.getName());
+
     }
     //TODO: Party 4 người đeo cho ghép trận, nếu là import. Party tạo mới thì bắt sự kiện đeo cho thêm/mời người khác
 
@@ -57,7 +58,7 @@ public class Leader extends AbstractMenu {
     }
 
     public void test(Player player) {
-        menuOwner.sendMessage("Received join request from " + player.getName());
+        ((Request) this.SubMenus.get(Menu.REQUEST)).addRequest(player);
     }
     /**
      * Decorates the menu with buttons and other elements.
@@ -81,7 +82,7 @@ public class Leader extends AbstractMenu {
                 .icon(createItem(RED_STAINED_GLASS_PANE, "§c§lThoát Nhóm"))
                 .onClick(event -> {
                     menuManager.openMenu((Player) event.getWhoClicked(), Menu.MAIN);
-
+                    party.delete();
                     //Dispose all submenus
                     ClashArena.instance.getPartyManager().removeParty(party);
                     SubMenus.forEach((menu, abstractMenu) -> abstractMenu.dispose()); dispose();

@@ -1,58 +1,73 @@
 package org.qpneruy.clashArena.menu.Gui.leader;
 
 import com.alessiodp.parties.api.interfaces.Party;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.menu.core.MenuButton;
 import org.qpneruy.clashArena.model.ArenaPlayer;
 import org.qpneruy.clashArena.skin.ElybySkin;
 import org.qpneruy.clashArena.utils.Pair;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.bukkit.Material.BREWING_STAND;
 import static org.bukkit.Material.RED_WOOL;
 import static org.qpneruy.clashArena.menu.InventoryUtils.createItem;
 
 public class AbstractPlayerMenu {
-    private Map<UUID, ArenaPlayer> Players = new HashMap<>();
-
-    private final Inventory inventory;
     protected Map<Integer, MenuButton> buttons;
-    private Party party;
+    private final Inventory inventory;
+    @Getter private Party party;
 
-    private int[] slots = {11, 12, 14, 15};
-    private final Map<String, Integer> PlayerSlots = new HashMap<>();
-    private Pair<ItemStack, ItemStack> emptySlot = new Pair<>(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
+    private final TreeSet<Integer> availableSeats = new TreeSet<>();
+    private final int[] slots = {11, 12, 14, 15};
+
+    private final BiMap<UUID, Integer> PlayerSlots = HashBiMap.create();
+    private final Map<UUID, ArenaPlayer> PartyPlayers = new HashMap<>();
+    private final Pair<ItemStack, ItemStack> emptySlot = new Pair<>(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), new ItemStack(Material.BLACK_STAINED_GLASS_PANE));
 
     public AbstractPlayerMenu(Inventory PartyInven, Map<Integer, MenuButton> buttons, Party party, String LeaderName) {
         this.inventory = PartyInven;
         this.buttons = buttons;
         this.party = party;
 
-        for (Integer slot : slots) this.PlayerSlots.put(null, slot);
+        for (int seat : slots) availableSeats.add(seat);
 
+        availableSeats.pollFirst(); //Remove the first slot, because it's for the leader.
         PlayerHeadCreator(LeaderName, "♗ ", slots[0]);
-        this.inventory.setItem(slots[0], createItem(BREWING_STAND, "Chủ Phòng"));
+        PartyPlayers.put(party.getLeader(), ClashArena.instance.getArenaPlayerManager().getArenaPlayer(party.getLeader()));
+
+        this.inventory.setItem(slots[0] - 9, createItem(BREWING_STAND, "Chủ Phòng"));
 
     }
 
-    private void importPlayer(Party party) {
-        party.getMembers().forEach((UUID uuid) -> {
 
+    public boolean addPlayer(UUID playerUUID) {
+        if (availableSeats.isEmpty()) return false; //Layer 1: Phong thu :))
 
-        });
+        ArenaPlayer player = ClashArena.instance.getArenaPlayerManager().getArenaPlayer(playerUUID);
+        Integer seat = availableSeats.pollFirst();
+        if (seat == null) return false; // Phong thu qua cung :)) ko he ho henh, khong mot so ho.
+        //Bo dong nay ra IDE se bao NPE.
+        party.addMember(Objects.requireNonNull(ClashArena.parties.getPartyPlayer(playerUUID)));
+        PlayerSlots.put(playerUUID, seat);
+        PartyPlayers.put(playerUUID, player);
+
+        PlayerHeadCreator(player.getName(), "+ ", seat);
+        return true;
     }
+
     public void PlayerHeadCreator(String playerName, String prefix, int slot) {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
         ElybySkin.getPlayerHead(head, playerName, prefix)
                 .thenAccept(v -> {
                     this.inventory.setItem(slot, head);
-                    this.inventory.setItem(slot-9, createItem(RED_WOOL, "§c§oChưa Sẵn Sàng §l✗"));
-                    this.PlayerSlots.put(playerName, slot);
+                    if (slot != slots[0]) this.inventory.setItem(slot-9, createItem(RED_WOOL, "§c§oChưa Sẵn Sàng §l✗"));
                 });
         buttons.put(slot, new MenuButton.Builder()
                 .icon(head)
@@ -62,16 +77,23 @@ public class AbstractPlayerMenu {
                 }).build());
     }
 
-    public void PlayerHeadRemover(String playerName) {
-        int slot = PlayerSlots.get(playerName);
+    public void removePlayer(UUID playerUUID) {
+        Integer slot = PlayerSlots.get(playerUUID);
+
         this.inventory.setItem(slot, emptySlot.getFirst());
-        this.inventory.setItem(slot-9, emptySlot.getSecond());
-        this.PlayerSlots.put(null, slot);
+        this.inventory.setItem(slot - 9, emptySlot.getSecond());
+
+        PlayerSlots.remove(playerUUID);
+        PartyPlayers.remove(playerUUID);
+
+        availableSeats.add(slot);
+        party.removeMember(Objects.requireNonNull(ClashArena.parties.getPartyPlayer(playerUUID)));
     }
 
-    public void PlayerChangeStatus(String playerName, boolean status) {
-        int slot = PlayerSlots.get(playerName);
+    public void PlayerChangeStatus(UUID playerUUID, boolean status) {
+        int slot = PlayerSlots.get(playerUUID);
         this.inventory.setItem(slot - 9, createItem(status ? Material.LIME_WOOL : Material.RED_WOOL, status ? "§a§oSẵn Sàng §l✓" : "§c§oChưa Sẵn Sàng §l✗"));
+        this.PartyPlayers.get(playerUUID).changeStatus();
     }
 
 

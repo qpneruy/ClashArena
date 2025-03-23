@@ -3,19 +3,33 @@ package org.qpneruy.clashArena.menu.Gui.Request;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.qpneruy.clashArena.ClashArena;
+import org.qpneruy.clashArena.menu.Gui.leader.AbstractPlayerMenu;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
 import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.menu.core.MenuButton;
+import org.qpneruy.clashArena.skin.ElybySkin;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.TreeSet;
+
+import static org.bukkit.Material.PLAYER_HEAD;
+import static org.bukkit.Material.RED_WOOL;
+import static org.qpneruy.clashArena.ClashArena.parties;
 import static org.qpneruy.clashArena.menu.InventoryUtils.createItem;
 import static org.qpneruy.clashArena.menu.InventoryUtils.setPane;
 
 public class Request extends AbstractMenu {
+    private final AbstractPlayerMenu playerManager;
+    private final int[] slots = {1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16};
+    private final TreeSet<Integer> availableSlots = new TreeSet<>();
 
-
-    public Request(Player menuOwner) {
+    public Request(Player menuOwner, AbstractPlayerMenu playerManager) {
         super(Menu.REQUEST, menuOwner,27,"Request");
+        this.playerManager = playerManager;
+        for (int seat : slots) availableSlots.add(seat);
     }
 
     /**
@@ -32,6 +46,23 @@ public class Request extends AbstractMenu {
         setPane(gui, new int[]{20, 24}, Material.OAK_SIGN);
         setPane(gui, new int[]{21, 23}, Material.GRINDSTONE);
 
+    }
+
+    public void addRequest(Player player) {
+        ItemStack head = new ItemStack(PLAYER_HEAD);
+        Integer slot = availableSlots.pollFirst();
+        if (slot == null) return;
+        ElybySkin.getPlayerHead(head, player.getName(), "")
+                .thenAccept(v -> this.inventory.setItem(slot, head));
+        buttons.put(slot, new MenuButton.Builder()
+                .icon(head).onClick(event -> {
+                    playerManager.addPlayer(event.getWhoClicked().getUniqueId());
+
+                    buttons.remove(slot);
+                    this.inventory.clear(slot);
+                    availableSlots.add(slot);
+                }).build());
+        super.buttonMap();
     }
 
     @Override

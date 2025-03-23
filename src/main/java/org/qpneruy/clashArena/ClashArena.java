@@ -11,6 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.qpneruy.clashArena.Party.PartyManager;
 import org.qpneruy.clashArena.commands.ClashArenaCmd;
 import org.qpneruy.clashArena.commands.ClashArenaCompleter;
+import org.qpneruy.clashArena.data.ArenaPlayerManager;
+import org.qpneruy.clashArena.data.ArenaPlayerRepository;
 import org.qpneruy.clashArena.menu.Gui.mainMenu.MainMenu;
 import org.qpneruy.clashArena.menu.manager.MenuManager;
 import org.qpneruy.clashArena.menu.events.MenuRegistry;
@@ -19,14 +21,17 @@ import org.qpneruy.clashArena.utils.enums.ConsoleColor;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@Getter
 public final class ClashArena extends JavaPlugin {
     public static ClashArena instance;
     public static PartiesAPI parties;
 
-    @Getter private MenuManager menuManager;
-    @Getter private MenuRegistry menuRegister;
-    @Getter private PartyManager partyManager;
-    @Getter private MainMenu mainMenu;
+    private MenuManager menuManager;
+    private MenuRegistry menuRegister;
+    private PartyManager partyManager;
+    private MainMenu mainMenu;
+    private ArenaPlayerManager ArenaPlayerManager;
+    private ArenaPlayerRepository ArenaPlayerStore;
 
     @Override
     public void onEnable() {
@@ -46,6 +51,8 @@ public final class ClashArena extends JavaPlugin {
         menuManager = new MenuManager();
         menuRegister = new MenuRegistry();
         partyManager = new PartyManager();
+        ArenaPlayerStore = new ArenaPlayerRepository();
+        ArenaPlayerManager = new ArenaPlayerManager();
     }
 
     private void registerCommands() {
@@ -86,7 +93,7 @@ public final class ClashArena extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        this.ArenaPlayerStore.close();
     }
 
     private String getVersion() {

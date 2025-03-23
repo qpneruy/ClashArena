@@ -4,6 +4,7 @@ org/qpneruy/clashArena/ClashArena.class
 org/qpneruy/clashArena/utils/godQueue.class
 org/qpneruy/clashArena/menu/core/MenuButton$Builder.class
 org/qpneruy/clashArena/menu/Gui/leader/AbstractPlayerMenu.class
+org/qpneruy/clashArena/data/ArenaPlayerManager.class
 org/qpneruy/clashArena/menu/core/MenuButton.class
 org/qpneruy/clashArena/skin/SkullUtils.class
 org/qpneruy/clashArena/commands/ClashArenaCmd.class

@@ -2,13 +2,15 @@ package org.qpneruy.clashArena.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.entity.Player;
 
-import org.qpneruy.clashArena.data.Player;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
 import static org.qpneruy.clashArena.model.Rank.UNRANKED;
+import static org.qpneruy.clashArena.model.RankOperation.ADVANCE;
+import static org.qpneruy.clashArena.model.RankOperation.DEMOTE;
 
 public class ArenaPlayer {
     @Getter private final UUID UniqueId;
@@ -34,53 +36,58 @@ public class ArenaPlayer {
         this.playerRank = Rank.valueOf(rs.getString("rank"));
         this.Stars = rs.getInt("stars");
     }
-
-    public void addStar() {
-        this.Stars++;
-        if (this.Stars >= 5 && playerRank != Rank.CHAMPION) {
-            advanceRank();
-            this.Stars = 0;
-        }
+    public void changeStatus() {
+        this.Status = (this.Status == ReadyStatus.READY) ? ReadyStatus.NOT_READY : ReadyStatus.READY;
     }
+    /**
+     * Updates the player's star count by the specified amount.
+     * Positive values add stars, negative values remove stars.
+     *
+     * @param amount The amount to change stars by (typically +x or -x)
+     */
+    public void updateStars(int amount) {
+        if (amount > 0) {
+            this.Stars += amount;
+            if (this.Stars >= 5 && playerRank != Rank.CHAMPION) {
+                updateRank(ADVANCE);
+                this.Stars = 0;
+            }
+        } else if (amount < 0) {
+            int starsToRemove = Math.abs(amount);
 
-    public void removeStar() {
-        if (this.Stars > 0) {
-            this.Stars--;
-        } else {
-            demoteRank();
-            if (playerRank != UNRANKED) {
-                this.Stars = 4;
+            while (starsToRemove > 0) {
+                if (this.Stars > 0) {
+                    this.Stars--;
+                } else {
+                    updateRank(DEMOTE);
+                    if (playerRank != UNRANKED) {
+                        this.Stars = 4;
+                    }
+                }
+                starsToRemove--;
             }
         }
     }
 
-    public void advanceRank() {
-        int currentIndex = getRankIndex(playerRank);
+    /**
+     * Updates the player's rank based on the specified operation.
+     *
+     * @param operation The rank operation to perform (ADVANCE or DEMOTE)
+     */
+    public void updateRank(RankOperation operation) {
+        int currentIndex = playerRank.ordinal();
         Rank[] ranks = Rank.values();
 
-        if (currentIndex < ranks.length - 1) {
-            playerRank = ranks[currentIndex + 1];
-        }
-    }
+        if (operation == RankOperation.ADVANCE) {
+            if (currentIndex < ranks.length - 1) playerRank = ranks[currentIndex + 1];
 
-    public void demoteRank() {
-        int currentIndex = getRankIndex(playerRank);
-        Rank[] ranks = Rank.values();
-
-        if (currentIndex > 0 && playerRank != UNRANKED) {
-            playerRank = ranks[currentIndex - 1];
-        } else if (playerRank != UNRANKED && currentIndex == 0) {
-            playerRank = UNRANKED;
-        }
-    }
-
-    private int getRankIndex(Rank rank) {
-        Rank[] ranks = Rank.values();
-        for (int i = 0; i < ranks.length; i++) {
-            if (ranks[i] == rank) {
-                return i;
+        } else if (operation == DEMOTE) {
+            if (currentIndex > 0) {
+                playerRank = ranks[currentIndex - 1];
+            } else if (playerRank != UNRANKED) {
+                playerRank = UNRANKED;
             }
         }
-        return -1;
     }
+
 }
