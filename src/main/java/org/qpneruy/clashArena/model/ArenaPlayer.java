@@ -1,5 +1,6 @@
 package org.qpneruy.clashArena.model;
 
+import com.alessiodp.parties.api.Parties;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ public class ArenaPlayer {
     @Getter private final String Name;
     @Getter @Setter private Rank playerRank = UNRANKED;
     @Getter @Setter private int Stars = 0;
+    @Getter @Setter Parties parties = null;
 
     public ReadyStatus Status = ReadyStatus.NOT_READY;
 

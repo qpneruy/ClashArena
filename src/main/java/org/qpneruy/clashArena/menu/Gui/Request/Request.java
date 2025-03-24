@@ -56,7 +56,7 @@ public class Request extends AbstractMenu {
                 .thenAccept(v -> this.inventory.setItem(slot, head));
         buttons.put(slot, new MenuButton.Builder()
                 .icon(head).onClick(event -> {
-                    playerManager.addPlayer(event.getWhoClicked().getUniqueId());
+                    playerManager.addPlayer(player.getUniqueId());
 
                     buttons.remove(slot);
                     this.inventory.clear(slot);

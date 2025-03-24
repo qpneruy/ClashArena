@@ -1,10 +1,12 @@
 package org.qpneruy.clashArena.menu.Gui.leader;
 
 import com.alessiodp.parties.api.interfaces.Party;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.qpneruy.clashArena.ClashArena;
+import org.qpneruy.clashArena.Party.Mode;
 import org.qpneruy.clashArena.menu.Gui.Request.Request;
 import org.qpneruy.clashArena.menu.Gui.Setting;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
@@ -35,7 +37,7 @@ public class Leader extends AbstractMenu {
         partyCreatorHelper();
         playerManager = new AbstractPlayerMenu(this.inventory, this.buttons, party, menuOwner.getName());
         menuManager = ClashArena.instance.getMenuManager();
-        SubMenus.put(Menu.SETTING, new Setting(menuOwner));
+        SubMenus.put(Menu.SETTING, new Setting(menuOwner, playerManager));
         SubMenus.put(Menu.REQUEST, new Request(menuOwner, playerManager));
         //Import Submenus to the menuManager for easy access and reduce memory leak issue
         menuManager.importMenu(menuOwner, SubMenus);

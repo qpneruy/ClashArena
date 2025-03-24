@@ -4,10 +4,12 @@ import com.alessiodp.parties.api.interfaces.Party;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.qpneruy.clashArena.ClashArena;
+import org.qpneruy.clashArena.Party.Mode;
 import org.qpneruy.clashArena.menu.core.MenuButton;
 import org.qpneruy.clashArena.model.ArenaPlayer;
 import org.qpneruy.clashArena.skin.ElybySkin;
@@ -21,11 +23,12 @@ import static org.qpneruy.clashArena.menu.InventoryUtils.createItem;
 
 public class AbstractPlayerMenu {
     protected Map<Integer, MenuButton> buttons;
-    private final Inventory inventory;
+    private Inventory inventory;
     @Getter private Party party;
+    @Getter @Setter Mode PARTIES_SIZE = Mode.DOU;
 
     private final TreeSet<Integer> availableSeats = new TreeSet<>();
-    private final int[] slots = {11, 12, 14, 15};
+    private final int LEADER_SLOT = 11;
 
     private final BiMap<UUID, Integer> PlayerSlots = HashBiMap.create();
     private final Map<UUID, ArenaPlayer> PartyPlayers = new HashMap<>();
@@ -36,13 +39,12 @@ public class AbstractPlayerMenu {
         this.buttons = buttons;
         this.party = party;
 
-        for (int seat : slots) availableSeats.add(seat);
-
+        for (int i = 0; i<=PARTIES_SIZE.ordinal(); i++) availableSeats.add((i < 2 ? i : i+2) + (LEADER_SLOT));
+        
         availableSeats.pollFirst(); //Remove the first slot, because it's for the leader.
-        PlayerHeadCreator(LeaderName, "♗ ", slots[0]);
+        PlayerHeadCreator(LeaderName, "♗ ", LEADER_SLOT);
         PartyPlayers.put(party.getLeader(), ClashArena.instance.getArenaPlayerManager().getArenaPlayer(party.getLeader()));
-
-        this.inventory.setItem(slots[0] - 9, createItem(BREWING_STAND, "Chủ Phòng"));
+        this.inventory.setItem(LEADER_SLOT - 9, createItem(BREWING_STAND, "Chủ Phòng"));
 
     }
 
@@ -63,11 +65,13 @@ public class AbstractPlayerMenu {
     }
 
     public void PlayerHeadCreator(String playerName, String prefix, int slot) {
+        System.out.println("Skin " + playerName);
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        this.inventory.setItem(slot, head);
         ElybySkin.getPlayerHead(head, playerName, prefix)
                 .thenAccept(v -> {
                     this.inventory.setItem(slot, head);
-                    if (slot != slots[0]) this.inventory.setItem(slot-9, createItem(RED_WOOL, "§c§oChưa Sẵn Sàng §l✗"));
+                    if (slot != LEADER_SLOT) this.inventory.setItem(slot-9, createItem(RED_WOOL, "§c§oChưa Sẵn Sàng §l✗"));
                 });
         buttons.put(slot, new MenuButton.Builder()
                 .icon(head)

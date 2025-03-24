@@ -118,7 +118,6 @@ public class MenuManager {
         return switch (menu) {
             case LEADER -> new Leader(owner);
             case MEMBER -> new Member(owner);
-            case SETTING -> new Setting(owner);
             case MAIN -> ClashArena.instance.getMainMenu();
             default -> null;
         };
