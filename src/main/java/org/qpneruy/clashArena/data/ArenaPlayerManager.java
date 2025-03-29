@@ -14,7 +14,7 @@ public class ArenaPlayerManager {
     private Map<UUID, ArenaPlayer> players = new HashMap<>();
 
 
-    public ArenaPlayer getArenaPlayer(UUID uuid) {
+    public ArenaPlayer computeArenaPlayer(UUID uuid) {
         return players.computeIfAbsent(uuid, id -> {
             Optional<ArenaPlayer> existingPlayer = ClashArena.instance.getArenaPlayerStore().findById(id);
             if (existingPlayer.isPresent()) {
@@ -26,8 +26,14 @@ public class ArenaPlayerManager {
                 throw new IllegalStateException("Player with UUID " + id + " not found online");
             }
 
-            return new ArenaPlayer(bukkitPlayer);
+            ArenaPlayer arenaPlayer = new ArenaPlayer(bukkitPlayer);
+            ClashArena.instance.getArenaPlayerStore().save(arenaPlayer);
+            return arenaPlayer;
         });
+    }
+
+    public void removePlayer(UUID uuid) {
+        players.remove(uuid);
     }
 
 }

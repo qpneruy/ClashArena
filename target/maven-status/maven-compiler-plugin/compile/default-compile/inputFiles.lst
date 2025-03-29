@@ -28,6 +28,7 @@
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/manager/Pagination.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/model/ArenaPlayer.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/model/Rank.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/model/RankManager.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/model/RankOperation.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/model/ReadyStatus.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/skin/ElybySkin.java

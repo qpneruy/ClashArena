@@ -20,6 +20,7 @@ org/qpneruy/clashArena/menu/enums/Visibility.class
 org/qpneruy/clashArena/menu/Gui/mainMenu/UpdateMethod.class
 org/qpneruy/clashArena/menu/events/InventoryHandler.class
 org/qpneruy/clashArena/menu/InventoryUtils.class
+org/qpneruy/clashArena/model/RankManager.class
 org/qpneruy/clashArena/ClashArena$1.class
 org/qpneruy/clashArena/menu/manager/MenuManager$1.class
 org/qpneruy/clashArena/menu/manager/MenuManager.class

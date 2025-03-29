@@ -43,7 +43,7 @@ public class AbstractPlayerMenu {
         
         availableSeats.pollFirst(); //Remove the first slot, because it's for the leader.
         PlayerHeadCreator(LeaderName, "♗ ", LEADER_SLOT);
-        PartyPlayers.put(party.getLeader(), ClashArena.instance.getArenaPlayerManager().getArenaPlayer(party.getLeader()));
+        PartyPlayers.put(party.getLeader(), ClashArena.instance.getArenaPlayerManager().computeArenaPlayer(party.getLeader()));
         this.inventory.setItem(LEADER_SLOT - 9, createItem(BREWING_STAND, "Chủ Phòng"));
 
     }
@@ -52,7 +52,7 @@ public class AbstractPlayerMenu {
     public boolean addPlayer(UUID playerUUID) {
         if (availableSeats.isEmpty()) return false; //Layer 1: Phong thu :))
 
-        ArenaPlayer player = ClashArena.instance.getArenaPlayerManager().getArenaPlayer(playerUUID);
+        ArenaPlayer player = ClashArena.instance.getArenaPlayerManager().computeArenaPlayer(playerUUID);
         Integer seat = availableSeats.pollFirst();
         if (seat == null) return false; // Phong thu qua cung :)) ko he ho henh, khong mot so ho.
         //Bo dong nay ra IDE se bao NPE.

@@ -21,7 +21,7 @@ public class DatabaseManager {
             }
 
             Path databaseFile = Path.of(databasePath);
-            String dbUrl = "jdbc:h2:" + databaseFile + ";AUTO_SERVER=TRUE";
+            String dbUrl = "jdbc:h2:file:" + databaseFile + ";AUTO_SERVER=TRUE;";
 
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(dbUrl);

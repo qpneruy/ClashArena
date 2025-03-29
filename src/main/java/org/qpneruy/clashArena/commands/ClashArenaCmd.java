@@ -31,6 +31,9 @@ public class ClashArenaCmd implements CommandExecutor {
         }
 
         switch (args[0]) {
+            case "up" -> {
+                ClashArena.instance.getArenaPlayerManager().computeArenaPlayer(player.getUniqueId()).updateStars(1);
+            }
             case "leader" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.LEADER);
             case "member" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.MEMBER);
             case "setting" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.SETTING);

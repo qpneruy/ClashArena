@@ -49,8 +49,8 @@ public class ArenaPlayerRepository {
 
             stmt.setString(1, player.getUniqueId().toString());
             stmt.setString(2, player.getName());
-            stmt.setString(3, player.getPlayerRank().name());
-            stmt.setInt(4, player.getStars());
+            stmt.setString(3, player.getPlayerRank().getRank().name());
+            stmt.setInt(4, player.getPlayerRank().getStars());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
