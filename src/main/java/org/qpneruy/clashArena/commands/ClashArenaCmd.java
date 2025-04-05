@@ -25,25 +25,22 @@ public class ClashArenaCmd implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 0) {
-            player.sendMessage("§cInvalid argument. Usage: /ClashArena <leader/member/setting/request>");
-            return true;
-        }
-
-        switch (args[0]) {
-            case "up" -> {
-                ClashArena.instance.getArenaPlayerManager().computeArenaPlayer(player.getUniqueId()).updateStars(1);
-            }
-            case "leader" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.LEADER);
-            case "member" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.MEMBER);
-            case "setting" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.SETTING);
-            case "request" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.REQUEST);
-            case "main" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.MAIN);
-            default -> {
-                player.sendMessage("§cInvalid argument. Usage: /ClashArena <leader/member/setting/request>");
-                return true;
-            }
-        }
+        ClashArena.instance.getMenuManager().openMenu(player, Menu.UNDEFINED);
         return true;
+//        switch (args[0]) {
+//            case "up" -> {
+//                ClashArena.instance.getArenaPlayerManager().computeArenaPlayer(player.getUniqueId()).updateStar(1);
+//            }
+//            case "leader" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.LEADER);
+//            case "member" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.MEMBER);
+//            case "setting" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.SETTING);
+//            case "request" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.REQUEST);
+//            case "main" -> ClashArena.instance.getMenuManager().openMenu(player, Menu.MAIN);
+//            default -> {
+//                player.sendMessage("§cInvalid argument. Usage: /ClashArena <leader/member/setting/request>");
+//                return true;
+//            }
+//        }
+//        return true;
     }
 }

@@ -9,6 +9,7 @@ import java.util.*;
 /**
  * Custom queue implementation with O(1) operations for add/remove/contains.
  * Maintains insertion order while allowing fast removals.
+ * AKA. Kẻ Hủy Diệt Ram :))
  *
  * @param <T> Type of elements in the queue
  */
@@ -126,5 +127,14 @@ public class godQueue<T> implements Iterable<T> {
             if (newCapacity < minCapacity) newCapacity = minCapacity;
             elements.ensureCapacity(newCapacity);
         }
+    }
+
+    public void destroy() {
+        elements.clear();
+        elementIndices.clear();
+        size = 0;
+        method = null;
+        removedIndex = -1;
+        System.out.println("[godQueue] Destroyed.");
     }
 }

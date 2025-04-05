@@ -1,6 +1,7 @@
 package org.qpneruy.clashArena.menu.manager;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.menu.Gui.leader.Leader;
 import org.qpneruy.clashArena.menu.Gui.Member;
@@ -21,28 +22,61 @@ public class MenuManager {
     private final Map<UUID, Map<Menu, AbstractMenu>> ACTIVE_MENUS = new ConcurrentHashMap<>();
 
     /**
-     * Opens a menu for the specified player. If the menu does not already exist for the player,
-     * it creates a new menu, registers it, and opens it. If the menu already exists, it simply opens it.
+     * Opens a menuType for the specified player. If the menuType does not already exist for the player,
+     * it creates a new menuType, registers it, and opens it. If the menuType already exists, it simply opens it.
      *
-     * @param player the player for whom the menu is to be opened
-     * @param menu   the menu to be opened
+     * @param player the player for whom the menuType is to be opened
+     * @param menuType   the menuType to be opened
      */
-    public void openMenu(Player player, Menu menu) {
+    public void openMenu(Player player, Menu menuType) {
         Map<Menu, AbstractMenu> playerMenus = ACTIVE_MENUS.computeIfAbsent(player.getUniqueId(), key -> new HashMap<>());
 
         ClashArenaLogger.info("Opening Menu");
 
-        if (!playerMenus.containsKey(menu)) {
-            AbstractMenu newMenu = createMenu(player, menu);
+
+        if (menuType == Menu.UNDEFINED) {
+            if (playerMenus.containsKey(Menu.LEADER)){
+                player.openInventory(playerMenus.get(Menu.LEADER).getInventory());
+                return;
+            }
+            if (playerMenus.containsKey(Menu.MEMBER)){
+                player.openInventory(playerMenus.get(Menu.MEMBER).getInventory());
+                return;
+            }
+            menuType = Menu.MAIN;
+        }
+
+        if (!playerMenus.containsKey(menuType)) {
+            AbstractMenu newMenu = createMenu(player, menuType);
             if (newMenu == null) return;
 
-            if (menu != Menu.MAIN) ClashArenaLogger.info("created new menu");
+            if (menuType != Menu.MAIN) ClashArenaLogger.info("created new menuType");
 
             player.openInventory(newMenu.getInventory());
-            playerMenus.put(menu, newMenu);
+            playerMenus.put(menuType, newMenu);
             ClashArena.instance.getMenuRegister().register(newMenu);
         }
-        player.openInventory(playerMenus.get(menu).getInventory());
+        player.openInventory(playerMenus.get(menuType).getInventory());
+    }
+
+    public void openMenu(Player player, Menu menuType, AbstractMenu Menu) {
+        Map<Menu, AbstractMenu> playerMenus = ACTIVE_MENUS.computeIfAbsent(player.getUniqueId(), key -> new HashMap<>());
+
+        ClashArenaLogger.info("Opening Menu");
+
+        if (!playerMenus.containsKey(menuType)) {
+            player.openInventory(Menu.getInventory());
+            playerMenus.put(menuType, Menu);
+            ClashArena.instance.getMenuRegister().register(Menu);
+        }
+        player.openInventory(playerMenus.get(menuType).getInventory());
+    }
+
+    public void closeMenu(Player player, Menu menuType) {
+        if (!this.ACTIVE_MENUS.containsKey(player.getUniqueId())) return;
+        Map<Menu, AbstractMenu> playerMenus = this.ACTIVE_MENUS.get(player.getUniqueId());
+        playerMenus.remove(menuType);
+        player.closeInventory();
     }
 
     /**

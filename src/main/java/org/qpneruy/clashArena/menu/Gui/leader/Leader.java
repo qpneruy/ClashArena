@@ -1,20 +1,21 @@
 package org.qpneruy.clashArena.menu.Gui.leader;
 
 import com.alessiodp.parties.api.interfaces.Party;
-import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.qpneruy.clashArena.ClashArena;
-import org.qpneruy.clashArena.Party.Mode;
+import org.qpneruy.clashArena.menu.Gui.Member;
 import org.qpneruy.clashArena.menu.Gui.Request.Request;
 import org.qpneruy.clashArena.menu.Gui.Setting;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
 import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.menu.core.MenuButton;
 import org.qpneruy.clashArena.menu.enums.Visibility;
+import org.qpneruy.clashArena.menu.manager.AbstractPlayerMenu;
 import org.qpneruy.clashArena.menu.manager.MenuManager;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -35,7 +36,9 @@ public class Leader extends AbstractMenu {
     public Leader(Player menuOwner) {
         super(Menu.LEADER, menuOwner,27,"Leader");
         partyCreatorHelper();
-        playerManager = new AbstractPlayerMenu(this.inventory, this.buttons, party, menuOwner.getName());
+        Member memberGUI = new Member(menuOwner);
+        SubMenus.put(Menu.MEMBER, memberGUI);
+        playerManager = new AbstractPlayerMenu(this.inventory, memberGUI, this.buttons, party, menuOwner.getName());
         menuManager = ClashArena.instance.getMenuManager();
         SubMenus.put(Menu.SETTING, new Setting(menuOwner, playerManager));
         SubMenus.put(Menu.REQUEST, new Request(menuOwner, playerManager));

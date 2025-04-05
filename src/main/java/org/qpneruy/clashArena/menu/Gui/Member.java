@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
 import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.menu.core.MenuButton;
+import org.qpneruy.clashArena.menu.manager.AbstractPlayerMenu;
 
 import static org.bukkit.Material.END_CRYSTAL;
 
@@ -20,7 +21,7 @@ public class Member extends AbstractMenu {
     public Member(Player menuOwner) {
         super(Menu.MEMBER, menuOwner,3 * 9, "§6§lThành Viên");
     }
-
+    private AbstractPlayerMenu playerManager;
     @Override
     public void decorate() {
         Inventory gui = this.getInventory();
@@ -39,6 +40,10 @@ public class Member extends AbstractMenu {
         gui.setItem(2, createItem(Material.BREWING_STAND, "§6Chủ Phòng"));
     }
 
+    public void setMemberManager(AbstractPlayerMenu playerManager) {
+        this.playerManager = playerManager;
+    }
+
     @Override
     protected void buttonMap() {
         buttons.put(13, new MenuButton.Builder()
@@ -47,10 +52,14 @@ public class Member extends AbstractMenu {
                 .onClick(event -> {}).build());
         buttons.put(20, new MenuButton.Builder()
                 .icon(createItem(Material.RED_STAINED_GLASS_PANE, "§c§lThoát Nhóm"))
-                .onClick(event -> {}).build());
+                .onClick(event -> {
+                    playerManager.removePlayer(event.getWhoClicked().getUniqueId());
+                }).build());
         buttons.put(24, new MenuButton.Builder()
                .icon(createItem(Material.GREEN_STAINED_GLASS_PANE, "§a§oSẵn Sàng"))
-                       .onClick(event -> {}).build());
+                       .onClick(event -> {
+                            playerManager.updatePlayerStatus(event.getWhoClicked().getUniqueId());
+                       }).build());
 
         super.buttonMap();
     }

@@ -6,7 +6,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.Party.Mode;
-import org.qpneruy.clashArena.menu.Gui.leader.AbstractPlayerMenu;
+import org.qpneruy.clashArena.menu.manager.AbstractPlayerMenu;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
 import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.menu.core.MenuButton;
@@ -26,7 +26,7 @@ public class Setting extends AbstractMenu {
     public Setting(Player menuOwner, AbstractPlayerMenu playerMenu) {
         super(Menu.SETTING, menuOwner, 27, "Cài Đặt");
         this.playerMenu = playerMenu;
-        this.activeMode = playerMenu.getPARTIES_SIZE().ordinal() + 1;
+        this.activeMode = playerMenu.getPartiesSize().ordinal() + 1;
 
         for (int i = 1; i <= 4; i++) {
             Material material = (i == activeMode) ? ENCHANTED_BOOK : BOOK;
@@ -63,7 +63,7 @@ public class Setting extends AbstractMenu {
         activeMode = newMode;
         modeItemsState.put(activeMode, createItem(ENCHANTED_BOOK, String.valueOf(activeMode)));
 
-        playerMenu.setPARTIES_SIZE(Mode.values()[activeMode - 1]);
+        playerMenu.setPartiesSize(Mode.values()[activeMode - 1]);
 
         return modeItemsState.get(activeMode);
     }

@@ -28,7 +28,7 @@ public class MenuRegistry {
      * @param menu the menu to register
      */
     public void register(AbstractMenu menu) {
-        this.activeMenus.put(menu.getInventory(), menu);
+        if (!this.activeMenus.containsKey(menu.getInventory())) this.activeMenus.put(menu.getInventory(), menu);
     }
 
     /**

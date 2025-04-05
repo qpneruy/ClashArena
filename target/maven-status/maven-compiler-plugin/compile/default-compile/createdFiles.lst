@@ -3,7 +3,6 @@ org/qpneruy/clashArena/menu/events/MenuRegistry.class
 org/qpneruy/clashArena/ClashArena.class
 org/qpneruy/clashArena/utils/godQueue.class
 org/qpneruy/clashArena/menu/core/MenuButton$Builder.class
-org/qpneruy/clashArena/menu/Gui/leader/AbstractPlayerMenu.class
 org/qpneruy/clashArena/data/ArenaPlayerManager.class
 org/qpneruy/clashArena/menu/core/MenuButton.class
 org/qpneruy/clashArena/skin/SkullUtils.class
@@ -17,12 +16,14 @@ org/qpneruy/clashArena/menu/Gui/leader/Leader.class
 org/qpneruy/clashArena/skin/ElybySkin.class
 org/qpneruy/clashArena/menu/enums/Menu.class
 org/qpneruy/clashArena/menu/enums/Visibility.class
+org/qpneruy/clashArena/Party/IPartyAdapter.class
 org/qpneruy/clashArena/menu/Gui/mainMenu/UpdateMethod.class
 org/qpneruy/clashArena/menu/events/InventoryHandler.class
 org/qpneruy/clashArena/menu/InventoryUtils.class
 org/qpneruy/clashArena/model/RankManager.class
 org/qpneruy/clashArena/ClashArena$1.class
 org/qpneruy/clashArena/menu/manager/MenuManager$1.class
+org/qpneruy/clashArena/Party/AlessioDPPartyAdapter.class
 org/qpneruy/clashArena/menu/manager/MenuManager.class
 org/qpneruy/clashArena/menu/core/AbstractMenu.class
 org/qpneruy/clashArena/model/ArenaPlayer.class
@@ -35,8 +36,8 @@ org/qpneruy/clashArena/Party/Mode.class
 org/qpneruy/clashArena/menu/Gui/mainMenu/MainMenu.class
 org/qpneruy/clashArena/menu/manager/Pagination.class
 org/qpneruy/clashArena/menu/events/MenuEventListener.class
-org/qpneruy/clashArena/menu/Gui/mainMenu/page.class
 org/qpneruy/clashArena/menu/Gui/Request/Request.class
 org/qpneruy/clashArena/utils/enums/DebugLevel.class
 org/qpneruy/clashArena/utils/enums/ConsoleColor.class
+org/qpneruy/clashArena/menu/manager/AbstractPlayerMenu.class
 org/qpneruy/clashArena/commands/ClashArenaCompleter.class

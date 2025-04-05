@@ -5,19 +5,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.qpneruy.clashArena.ClashArena;
-import org.qpneruy.clashArena.menu.Gui.leader.AbstractPlayerMenu;
+import org.qpneruy.clashArena.menu.manager.AbstractPlayerMenu;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
 import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.menu.core.MenuButton;
 import org.qpneruy.clashArena.skin.ElybySkin;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 import static org.bukkit.Material.PLAYER_HEAD;
-import static org.bukkit.Material.RED_WOOL;
-import static org.qpneruy.clashArena.ClashArena.parties;
 import static org.qpneruy.clashArena.menu.InventoryUtils.createItem;
 import static org.qpneruy.clashArena.menu.InventoryUtils.setPane;
 
@@ -25,6 +23,7 @@ public class Request extends AbstractMenu {
     private final AbstractPlayerMenu playerManager;
     private final int[] slots = {1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16};
     private final TreeSet<Integer> availableSlots = new TreeSet<>();
+    private final Set<Player> Request = new HashSet<>();
 
     public Request(Player menuOwner, AbstractPlayerMenu playerManager) {
         super(Menu.REQUEST, menuOwner,27,"Request");
@@ -49,6 +48,8 @@ public class Request extends AbstractMenu {
     }
 
     public void addRequest(Player player) {
+        if (this.playerManager.isFull()) return;
+        if (Request.contains(player)) return;
         ItemStack head = new ItemStack(PLAYER_HEAD);
         Integer slot = availableSlots.pollFirst();
         if (slot == null) return;
@@ -57,11 +58,11 @@ public class Request extends AbstractMenu {
         buttons.put(slot, new MenuButton.Builder()
                 .icon(head).onClick(event -> {
                     playerManager.addPlayer(player.getUniqueId());
-
                     buttons.remove(slot);
                     this.inventory.clear(slot);
                     availableSlots.add(slot);
                 }).build());
+        Request.add(player);
         super.buttonMap();
     }
 

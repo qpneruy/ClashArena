@@ -1,5 +1,6 @@
 package org.qpneruy.clashArena.data;
 
+import org.bukkit.Bukkit;
 import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.model.ArenaPlayer;
 
@@ -11,6 +12,8 @@ import java.util.UUID;
 public class ArenaPlayerRepository {
 
     private final String databasePath;
+    private static final int MAX_CONCURRENT_UPDATES = 10;
+    private final java.util.concurrent.Semaphore updateSemaphore = new java.util.concurrent.Semaphore(MAX_CONCURRENT_UPDATES);
 
     public ArenaPlayerRepository() {
         this.databasePath = new File(ClashArena.instance.getDataFolder(), "/Database/ArenaPlayer").getAbsolutePath();
@@ -35,6 +38,38 @@ public class ArenaPlayerRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create arena_players table", e);
         }
+    }
+
+    public void updateStars(UUID uniqueId, int newStars) {
+        String sql = "UPDATE arena_players SET stars = ? WHERE unique_id = ?";
+
+        try (Connection connection = DatabaseManager.getDataSource(databasePath).getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setInt(1, newStars);
+            stmt.setString(2, uniqueId.toString());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update player stars", e);
+        }
+    }
+
+    /**
+     * Updates player stars asynchronously with concurrency control
+     */
+    public void updateStarsAsync(UUID uniqueId, int newStars) {
+        Bukkit.getScheduler().runTaskAsynchronously(ClashArena.instance, () -> {
+            try {
+                updateSemaphore.acquire();
+                try {
+                    updateStars(uniqueId, newStars);
+                } finally {
+                    updateSemaphore.release();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
     }
 
     public void save(ArenaPlayer player) {

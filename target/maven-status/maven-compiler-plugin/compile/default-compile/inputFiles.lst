@@ -1,4 +1,6 @@
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/ClashArena.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/Party/AlessioDPPartyAdapter.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/Party/IPartyAdapter.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/Party/Mode.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/Party/PartyManager.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/commands/ClashArenaCmd.java
@@ -11,7 +13,6 @@
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/Request/Request.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/Request/handleRequest.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/Setting.java
-/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/leader/AbstractPlayerMenu.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/leader/Leader.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/mainMenu/MainMenu.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/mainMenu/UpdateMethod.java
@@ -24,6 +25,7 @@
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/events/InventoryHandler.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/events/MenuEventListener.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/events/MenuRegistry.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/manager/AbstractPlayerMenu.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/manager/MenuManager.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/manager/Pagination.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/model/ArenaPlayer.java

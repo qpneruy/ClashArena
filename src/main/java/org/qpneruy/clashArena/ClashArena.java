@@ -11,6 +11,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.qpneruy.clashArena.Party.AlessioDPPartyAdapter;
+import org.qpneruy.clashArena.Party.IPartyAdapter;
 import org.qpneruy.clashArena.Party.PartyManager;
 import org.qpneruy.clashArena.commands.ClashArenaCmd;
 import org.qpneruy.clashArena.commands.ClashArenaCompleter;
@@ -28,7 +30,7 @@ import java.util.Map;
 @Getter
 public final class ClashArena extends JavaPlugin implements Listener {
     public static ClashArena instance;
-    public static PartiesAPI parties;
+    public static IPartyAdapter parties;
 
     private MenuManager menuManager;
     private MenuRegistry menuRegister;
@@ -86,7 +88,7 @@ public final class ClashArena extends JavaPlugin implements Listener {
 
                 if (isDepend) {
                     switch (pluginName) {
-                        case "Parties" -> parties = Parties.getApi();
+                        case "Parties" -> parties = new AlessioDPPartyAdapter(Parties.getApi());
                         case "FastAsyncWorldEdit", "WorldEdit" -> {}
                     }
                 }

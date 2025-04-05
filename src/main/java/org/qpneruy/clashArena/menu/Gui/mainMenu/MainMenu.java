@@ -60,13 +60,11 @@ public class MainMenu extends AbstractMenu {
 
     }
 
-    //listener call from PartyManager
     public void addParty(Party party) {
         parties.add(party);
         updateMenu();
     }
 
-    //listener call from PartyManager
     public void removeParty(Party party) {
         parties.remove(party);
         updateMenu();
@@ -74,7 +72,6 @@ public class MainMenu extends AbstractMenu {
 
     private void updateMenu() {
         if (parties.getMethod() == UpdateMethod.NEW) {
-            // Only add the newest party to the next available slot
             int newPartyIndex = parties.size() - 1;
             if (newPartyIndex < availableSlots.size()) {
                 Party newParty = parties.get(newPartyIndex);
@@ -87,13 +84,11 @@ public class MainMenu extends AbstractMenu {
         } else if (parties.getMethod() == UpdateMethod.REMOVE) {
             int removedIndex = parties.getRemovedIndex();
 
-            // Clear the slot where a party was removed
             if (removedIndex < availableSlots.size()) {
                 int removedSlot = availableSlots.get(removedIndex);
                 this.getInventory().clear(removedSlot);
                 buttons.remove(removedSlot);
 
-                // Shift all subsequent parties up by one slot
                 for (int i = removedIndex; i < parties.size(); i++) {
                     int slot = availableSlots.get(i);
                     Party party = parties.get(i);
@@ -103,7 +98,6 @@ public class MainMenu extends AbstractMenu {
                     this.getInventory().setItem(slot, button.getIcon());
                 }
 
-                // Clear the last slot that should now be empty
                 if (parties.size() < availableSlots.size()) {
                     int lastSlot = availableSlots.get(parties.size());
                     this.getInventory().clear(lastSlot);

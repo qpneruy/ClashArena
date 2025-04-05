@@ -4,6 +4,7 @@ import com.alessiodp.parties.api.Parties;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
+import org.qpneruy.clashArena.ClashArena;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,7 +42,8 @@ public class ArenaPlayer {
         this.Status = (this.Status == ReadyStatus.READY) ? ReadyStatus.NOT_READY : ReadyStatus.READY;
     }
 
-    public void updateStars(int amount) {
-        this.PlayerRank.updateStars(amount);
+    public void updateStar(int change) {
+        this.PlayerRank.updateStars(change);
+        ClashArena.instance.getArenaPlayerStore().updateStarsAsync(this.UniqueId, this.PlayerRank.getStars());
     }
 }
