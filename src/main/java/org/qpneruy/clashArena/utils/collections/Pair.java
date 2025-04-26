@@ -1,4 +1,4 @@
-package org.qpneruy.clashArena.utils;
+package org.qpneruy.clashArena.utils.collections;
 
 import lombok.Getter;
 import lombok.Setter;

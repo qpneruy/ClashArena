@@ -1,6 +1,7 @@
 package org.qpneruy.clashArena.menu.Gui.leader;
 
 import com.alessiodp.parties.api.interfaces.Party;
+import me.clip.placeholderapi.libs.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +16,6 @@ import org.qpneruy.clashArena.menu.enums.Visibility;
 import org.qpneruy.clashArena.menu.manager.AbstractPlayerMenu;
 import org.qpneruy.clashArena.menu.manager.MenuManager;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -62,8 +62,9 @@ public class Leader extends AbstractMenu {
         } else ClashArena.instance.getPartyManager().importParty(party);
     }
 
-    public void test(Player player) {
+    public void addRequest(Player player) {
         ((Request) this.SubMenus.get(Menu.REQUEST)).addRequest(player);
+        menuOwner.sendMessage("[ClashArena] yeu cau tham gia tu " + player.getName());
     }
     /**
      * Decorates the menu with buttons and other elements.

@@ -112,10 +112,10 @@ public class MainMenu extends AbstractMenu {
     private MenuButton RoomButtonCreator(Party party) {
         return new MenuButton.Builder()
                 .icon(createItem(Material.OAK_FENCE_GATE, party.getName(), Arrays.asList(
-                        "§7§lLeader: §f" + Bukkit.getOfflinePlayer(Objects.requireNonNull(party.getLeader())).getName(),
-                        "§7§lMembers: §f" + party.getMembers().size(),
-                        "§7§lTag: §f" + party.getTag(),
-                        "§7§lDescription: §f" + party.getDescription()
+                        "§7Leader: §f" + Bukkit.getOfflinePlayer(Objects.requireNonNull(party.getLeader())).getName(),
+                        "§7Members: §f" + party.getMembers().size(),
+                        "§7Tag: §f" + party.getTag(),
+                        "§7Description: §f" + party.getDescription()
                 )))
                 .onClick(event -> {
                     if (party.getMembers().size() == 4) {
@@ -125,7 +125,7 @@ public class MainMenu extends AbstractMenu {
                     Party partyToJoin = parties.get(pressIndex);
                     UUID leaderOfParty = partyToJoin.getLeader();
                     Leader leaderMenu = (Leader) ClashArena.instance.getMenuManager().getSpecificMenuForPlayer(leaderOfParty, Menu.LEADER);
-                    leaderMenu.test((Player) event.getWhoClicked());
+                    leaderMenu.addRequest((Player) event.getWhoClicked());
                 }).build();
     }
 

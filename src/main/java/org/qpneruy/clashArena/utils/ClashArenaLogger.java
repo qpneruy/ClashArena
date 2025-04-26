@@ -104,7 +104,7 @@ public class ClashArenaLogger {
     /**
      * Internal helper method to perform the actual logging.
      */
-    private static void log(@NotNull final Level level, @NotNull final String message) {
+    public static void log(@NotNull final Level level, @NotNull final String message) {
         ClashArena.instance.getLogger().log(level, message);
     }
 }

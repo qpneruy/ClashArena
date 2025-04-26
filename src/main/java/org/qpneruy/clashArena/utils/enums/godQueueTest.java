@@ -1,7 +1,7 @@
 //package org.qpneruy.clashArena.utils.enums;
 //
 //import org.junit.jupiter.api.Test;
-//import org.qpneruy.clashArena.utils.Pair;
+//import org.qpneruy.clashArena.utils.collections.Pair;
 //import org.qpneruy.clashArena.utils.godQueue;
 //
 //import java.util.Iterator;

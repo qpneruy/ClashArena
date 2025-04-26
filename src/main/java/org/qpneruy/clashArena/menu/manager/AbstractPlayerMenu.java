@@ -17,7 +17,7 @@ import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.model.ArenaPlayer;
 import org.qpneruy.clashArena.model.ReadyStatus;
 import org.qpneruy.clashArena.skin.ElybySkin;
-import org.qpneruy.clashArena.utils.Pair;
+import org.qpneruy.clashArena.utils.collections.Pair;
 
 import java.util.*;
 
@@ -28,6 +28,7 @@ import static org.qpneruy.clashArena.menu.InventoryUtils.createItem;
  * Manages player slots, status and display in party-related menus
  */
 public class AbstractPlayerMenu {
+
     // Constants
     private static final int LEADER_SLOT = 11;
     private static final String READY_TEXT = "§a§oSẵn Sàng §l✓";
@@ -47,7 +48,7 @@ public class AbstractPlayerMenu {
 
     // Party data
     @Getter private final Party party;
-    @Getter private Mode partiesSize = Mode.DOU;
+    @Getter private Mode partiesSize = Mode.DUO;
 
     // Player tracking
     private final TreeSet<Integer> availableSeats = new TreeSet<>();

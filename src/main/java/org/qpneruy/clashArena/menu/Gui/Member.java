@@ -17,11 +17,12 @@ import static org.qpneruy.clashArena.menu.InventoryUtils.setPane;
 
 
 public class Member extends AbstractMenu {
+    private AbstractPlayerMenu playerManager;
 
     public Member(Player menuOwner) {
         super(Menu.MEMBER, menuOwner,3 * 9, "§6§lThành Viên");
     }
-    private AbstractPlayerMenu playerManager;
+
     @Override
     public void decorate() {
         Inventory gui = this.getInventory();

@@ -24,6 +24,9 @@ import org.qpneruy.clashArena.menu.events.MenuRegistry;
 import org.qpneruy.clashArena.model.ArenaPlayer;
 import org.qpneruy.clashArena.utils.ClashArenaLogger;
 import org.qpneruy.clashArena.utils.enums.ConsoleColor;
+import org.qpneruy.clashArena.worldManager.Schematic.SchematicPasterManager;
+import org.qpneruy.clashArena.worldManager.worldManager;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -35,6 +38,8 @@ public final class ClashArena extends JavaPlugin implements Listener {
     private MenuManager menuManager;
     private MenuRegistry menuRegister;
     private PartyManager partyManager;
+    private worldManager worldManager;
+    private SchematicPasterManager schematicPasterManager;
     private MainMenu mainMenu;
     private ArenaPlayerManager ArenaPlayerManager;
     private ArenaPlayerRepository ArenaPlayerStore;
@@ -58,8 +63,10 @@ public final class ClashArena extends JavaPlugin implements Listener {
         menuManager = new MenuManager();
         menuRegister = new MenuRegistry();
         partyManager = new PartyManager();
+        worldManager = new worldManager();
         ArenaPlayerStore = new ArenaPlayerRepository();
         ArenaPlayerManager = new ArenaPlayerManager();
+        schematicPasterManager = new SchematicPasterManager();
     }
 
     private void registerCommands() {
