@@ -1,14 +1,13 @@
 package org.qpneruy.clashArena.menu.manager;
 
+import lombok.Getter;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.menu.Gui.leader.Leader;
 import org.qpneruy.clashArena.menu.Gui.Member;
-import org.qpneruy.clashArena.menu.Gui.Request.Request;
-import org.qpneruy.clashArena.menu.Gui.Setting;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
 import org.qpneruy.clashArena.menu.enums.Menu;
+import org.qpneruy.clashArena.menu.events.MenuRegistry;
 import org.qpneruy.clashArena.utils.ClashArenaLogger;
 
 import java.util.Collections;
@@ -20,7 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MenuManager {
     private final Map<UUID, Map<Menu, AbstractMenu>> ACTIVE_MENUS = new ConcurrentHashMap<>();
+    @Getter
+    private final MenuRegistry menuRegistry;
 
+    public MenuManager() {
+        this.menuRegistry = new MenuRegistry();
+    }
     /**
      * Opens a menuType for the specified player. If the menuType does not already exist for the player,
      * it creates a new menuType, registers it, and opens it. If the menuType already exists, it simply opens it.
@@ -54,7 +58,7 @@ public class MenuManager {
 
             player.openInventory(newMenu.getInventory());
             playerMenus.put(menuType, newMenu);
-            ClashArena.instance.getMenuRegister().register(newMenu);
+            menuRegistry.register(newMenu);
         }
         player.openInventory(playerMenus.get(menuType).getInventory());
     }
@@ -67,7 +71,7 @@ public class MenuManager {
         if (!playerMenus.containsKey(menuType)) {
             player.openInventory(Menu.getInventory());
             playerMenus.put(menuType, Menu);
-            ClashArena.instance.getMenuRegister().register(Menu);
+            menuRegistry.register(Menu);
         }
         player.openInventory(playerMenus.get(menuType).getInventory());
     }
@@ -97,18 +101,18 @@ public class MenuManager {
 
             if (playerMenus.containsKey(menuKey)) {
                 AbstractMenu temp = playerMenus.get(menuKey);
-                ClashArena.instance.getMenuRegister().unregister(temp);
+                menuRegistry.unregister(temp);
                 temp.dispose();
             }
 
             playerMenus.put(menuKey, newMenu);
-            ClashArena.instance.getMenuRegister().register(newMenu);
+            menuRegistry.register(newMenu);
         }
     }
 
     /**
      * Disposes of a menu for the specified player. If the menu exists, it unregisters and removes it.
-     * this method is called in disposeMenu method in AbstractMenu class
+     * This method is called in disposeMenu method in AbstractMenu class
      * NOT recommended to call this method in another place
      *
      * @param player the player for whom the menu is to be disposed
@@ -121,8 +125,17 @@ public class MenuManager {
         AbstractMenu menuToDispose = playerMenus.get(menu);
         if (menuToDispose == null) return;
 
-        ClashArena.instance.getMenuRegister().unregister(menuToDispose);
+        menuRegistry.unregister(menuToDispose);
         playerMenus.remove(menu);
+    }
+
+    public void disposeAllMenu() {
+        ACTIVE_MENUS.forEach((uuid, menu) -> {
+            menu.forEach((menuType, abstractMenu) -> {
+                abstractMenu.dispose();
+            });
+        });
+        ACTIVE_MENUS.clear();
     }
 
     /**

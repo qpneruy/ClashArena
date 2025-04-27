@@ -20,6 +20,8 @@ public class SchematicPasterManager implements AutoCloseable {
 
     private final boolean worldEditEnabled;
     private final boolean faweEnabled;
+    private static int LIMIT_PER_TICK = 10;
+    private static int DELAY_TICK = 1;
 
     @Getter
     private SchematicPaster schematicPaster;
@@ -90,8 +92,8 @@ public class SchematicPasterManager implements AutoCloseable {
         String preferredPasterKey = "fawe"; // Default preference
         if (schematicConfig != null) {
             preferredPasterKey = schematicConfig.getString("paster", preferredPasterKey);
-            // SchematicPasterManager.limitPerTick = schematicConfig.getInt("LimitPerTick", DEFAULT_LIMIT_PER_TICK);
-            // SchematicPasterManager.delayTick = schematicConfig.getInt("Delay", DEFAULT_DELAY_TICK);
+             SchematicPasterManager.LIMIT_PER_TICK = schematicConfig.getInt("LimitPerTick", LIMIT_PER_TICK);
+             SchematicPasterManager.DELAY_TICK = schematicConfig.getInt("Delay", DELAY_TICK);
         } else {
             ClashArenaLogger.info("Schematic configuration section not found, using default paster preference ('fawe').");
         }

@@ -17,7 +17,7 @@ public class MenuRegistry {
 
     public MenuRegistry() {
         this.activeMenus = new HashMap<>();
-        Bukkit.getPluginManager().registerEvents(new MenuEventListener(), ClashArena.instance);
+
     }
 
 

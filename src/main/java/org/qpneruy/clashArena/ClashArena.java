@@ -3,12 +3,7 @@ package org.qpneruy.clashArena;
 
 import lombok.Getter;
 import com.alessiodp.parties.api.Parties;
-import com.alessiodp.parties.api.interfaces.PartiesAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.qpneruy.clashArena.Party.AlessioDPPartyAdapter;
@@ -18,55 +13,64 @@ import org.qpneruy.clashArena.commands.ClashArenaCmd;
 import org.qpneruy.clashArena.commands.ClashArenaCompleter;
 import org.qpneruy.clashArena.data.ArenaPlayerManager;
 import org.qpneruy.clashArena.data.ArenaPlayerRepository;
+import org.qpneruy.clashArena.events.onPlayerJoin;
+import org.qpneruy.clashArena.events.onPlayerQuit;
 import org.qpneruy.clashArena.menu.Gui.mainMenu.MainMenu;
+import org.qpneruy.clashArena.menu.events.MenuEventListener;
 import org.qpneruy.clashArena.menu.manager.MenuManager;
-import org.qpneruy.clashArena.menu.events.MenuRegistry;
-import org.qpneruy.clashArena.model.ArenaPlayer;
 import org.qpneruy.clashArena.utils.ClashArenaLogger;
 import org.qpneruy.clashArena.utils.enums.ConsoleColor;
 import org.qpneruy.clashArena.worldManager.Schematic.SchematicPasterManager;
 import org.qpneruy.clashArena.worldManager.worldManager;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Getter
-public final class ClashArena extends JavaPlugin implements Listener {
+public final class ClashArena extends JavaPlugin {
     public static ClashArena instance;
     public static IPartyAdapter parties;
 
     private MenuManager menuManager;
-    private MenuRegistry menuRegister;
     private PartyManager partyManager;
     private worldManager worldManager;
     private SchematicPasterManager schematicPasterManager;
-    private MainMenu mainMenu;
     private ArenaPlayerManager ArenaPlayerManager;
+
+    private MainMenu mainMenu;
     private ArenaPlayerRepository ArenaPlayerStore;
 
     @Override
     public void onEnable() {
         instance = this;
         ClashArenaLogger.info( "ClashArena has been enabled!");
-        getServer().getPluginManager().registerEvents(this, this);
 
         registerCommands();
-        intializeService();
+        initializeConfig();
+        initializeService();
+        registerEvents();
         hook();
 
         // Main Menu does not have a menu owner.
         mainMenu = new MainMenu(null);
         partyManager.registerListenerMenu(mainMenu);
     }
-
-    private void intializeService() {
+    private void registerEvents() {
+       new onPlayerJoin(ArenaPlayerManager);
+       new onPlayerQuit(ArenaPlayerManager, ArenaPlayerStore);
+       new MenuEventListener(menuManager.getMenuRegistry());
+    }
+    private void initializeService() {
         menuManager = new MenuManager();
-        menuRegister = new MenuRegistry();
         partyManager = new PartyManager();
         worldManager = new worldManager();
         ArenaPlayerStore = new ArenaPlayerRepository();
         ArenaPlayerManager = new ArenaPlayerManager();
-        schematicPasterManager = new SchematicPasterManager();
     }
 
     private void registerCommands() {
@@ -81,32 +85,33 @@ public final class ClashArena extends JavaPlugin implements Listener {
             put("MMOItems", false);
             put("MythicMobs", false);
             put("Parties", true);
-            put("FastAsyncWorldEdit", true);
             put("WorldEdit", true);
         }};
 
         for (Map.Entry<String, Boolean> entry : pluginsToCheck.entrySet()) {
             String pluginName = entry.getKey();
-            boolean isDepend = entry.getValue();
 
             Plugin plugin = Bukkit.getPluginManager().getPlugin(pluginName);
             if (plugin != null && plugin.isEnabled()) {
                 ClashArenaLogger.info(pluginName + ": " + ConsoleColor.GREEN + "hooked!");
-
-                if (isDepend) {
-                    switch (pluginName) {
-                        case "Parties" -> parties = new AlessioDPPartyAdapter(Parties.getApi());
-                        case "FastAsyncWorldEdit", "WorldEdit" -> {}
-                    }
+                switch (pluginName) {
+                    case "Parties" -> parties = new AlessioDPPartyAdapter(Parties.getApi());
+                    case "WorldEdit" -> schematicPasterManager = new SchematicPasterManager();
                 }
             } else {
                 ClashArenaLogger.info(pluginName + ": " + ConsoleColor.RED + "not found!");
+                if (pluginsToCheck.get(pluginName)) {
+                    ClashArenaLogger.warn("Please install '" + pluginName + "' to use this plugin.");
+                    Bukkit.getPluginManager().disablePlugin(this);
+                }
             }
         }
     }
 
     @Override
     public void onDisable() {
+        Bukkit.getServer().getOnlinePlayers().forEach(
+                player -> ArenaPlayerStore.save(ArenaPlayerManager.computeArenaPlayer(player.getUniqueId())));
         this.ArenaPlayerStore.close();
     }
 
@@ -118,15 +123,33 @@ public final class ClashArena extends JavaPlugin implements Listener {
         String fullName = "net.minecraft.server." + getVersion() + "." + name.replace('.', '/');
         return Class.forName(fullName);
     }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        this.ArenaPlayerManager.computeArenaPlayer(event.getPlayer().getUniqueId());
+    private void initializeConfig() {
+        saveDefaultConfig();
+        saveResourceToFolder("Default.yml", new File("plugins/ClashArena/Message"));
     }
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        ArenaPlayer player = this.ArenaPlayerManager.computeArenaPlayer(event.getPlayer().getUniqueId());
-        this.ArenaPlayerStore.save(player);
-        this.ArenaPlayerManager.removePlayer(event.getPlayer().getUniqueId());
+
+    private void createFolder(String folderName) {
+        File folder = new File(getDataFolder(), folderName);
+        if (!folder.exists())
+            if (!folder.mkdir()) ClashArenaLogger.error("Folder " + folderName + " could not be created.");
+    }
+
+    private void saveResourceToFolder(String resourceName, File targetFolder) {
+        try {
+            File targetFile = new File(targetFolder, resourceName);
+            if (targetFile.exists()) {
+                return;
+            }
+            if (!targetFolder.exists()) targetFolder.mkdirs();
+            InputStream source = getResource(resourceName);
+            if (source == null) {
+                getLogger().warning("Resource " + resourceName + " not found in the plugin's resources.");
+                return;
+            }
+            Files.copy(source, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            source.close();
+        } catch (IOException exception) {
+            getLogger().warning("Could not copy " + resourceName + " to " + targetFolder.getAbsolutePath() + ": " + exception.getMessage());
+        }
     }
 }

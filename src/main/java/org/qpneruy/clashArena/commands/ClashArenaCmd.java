@@ -20,22 +20,22 @@ public class ClashArenaCmd implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        String id = ClashArena.instance.getWorldManager().createWorld((Player) sender);
-        Location location = ClashArena.instance.getWorldManager().getWorldMap().get(id).getSpawnLocation();
-
-
-        ClashArena.instance.getSchematicPasterManager().getSchematicPaster().paste(new File("/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/nether-pvp-arena1.schem"), location, true).thenAccept(aVoid -> {
-
-        });
-        ((Player) sender).teleport(location);
-//        System.out.println("Open main menu");
-//        if (!(sender instanceof Player player)) return true;
-//        if (!sender.hasPermission("clasharena.use")) {
-//            sender.sendMessage("§cYou don't have permission to use this command.");
-//            return true;
-//        }
+//        String id = ClashArena.instance.getWorldManager().createWorld((Player) sender);
+//        Location location = ClashArena.instance.getWorldManager().getWorld(id).getSpawnLocation();
 //
-//        ClashArena.instance.getMenuManager().openMenu(player, Menu.UNDEFINED);
+//
+//        ClashArena.instance.getSchematicPasterManager().getSchematicPaster().paste(new File("/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/nether_arena.schem"), location, true).thenAccept(aVoid -> {
+//            System.out.println("chayroi");
+//        });
+//        ((Player) sender).teleport(location);
+        System.out.println("Open main menu");
+        if (!(sender instanceof Player player)) return true;
+        if (!sender.hasPermission("clasharena.use")) {
+            sender.sendMessage("§cYou don't have permission to use this command.");
+            return true;
+        }
+
+        ClashArena.instance.getMenuManager().openMenu(player, Menu.UNDEFINED);
 //        return true;
 //        switch (args[0]) {
 //            case "up" -> {

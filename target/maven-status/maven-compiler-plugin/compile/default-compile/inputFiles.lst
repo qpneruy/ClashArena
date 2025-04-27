@@ -25,7 +25,8 @@
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/data/ArenaPlayerManager.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/data/ArenaPlayerRepository.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/data/DatabaseManager.java
-/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/events/LeftEvent.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/events/onPlayerJoin.java
+/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/events/onPlayerQuit.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/Member.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/Request/Request.java
 /home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/menu/Gui/Request/handleRequest.java

@@ -18,7 +18,6 @@ org/qpneruy/clashArena/worldManager/Schematic/SchematicPasterManager.class
 org/qpneruy/clashArena/Party/AlessioDPPartyAdapter.class
 org/qpneruy/clashArena/worldManager/chunkProvider/VoidBiomeProvider.class
 org/qpneruy/clashArena/menu/manager/MenuManager.class
-org/qpneruy/clashArena/events/LeftEvent.class
 org/qpneruy/clashArena/menu/Gui/Setting.class
 org/qpneruy/clashArena/menu/Gui/Request/handleRequest.class
 org/qpneruy/clashArena/worldManager/chunkProvider/Utils.class
@@ -42,6 +41,7 @@ org/qpneruy/clashArena/menu/core/MenuButton.class
 org/qpneruy/clashArena/skin/SkullUtils.class
 org/jnbt/NBTOutputStream.class
 org/qpneruy/clashArena/menu/InventoryUtils$ItemCacheKey.class
+org/qpneruy/clashArena/events/onPlayerQuit.class
 org/qpneruy/clashArena/commands/ClashArenaCmd.class
 org/qpneruy/clashArena/Party/PartyManager.class
 org/jnbt/NBTInputStream.class
@@ -63,6 +63,7 @@ org/qpneruy/clashArena/model/ArenaPlayer.class
 org/jnbt/ListTag.class
 org/jnbt/ByteTag.class
 org/jnbt/StringTag.class
+org/qpneruy/clashArena/events/onPlayerJoin.class
 org/qpneruy/clashArena/model/Rank.class
 org/jnbt/IntArrayTag.class
 org/qpneruy/clashArena/skin/MojangSkin.class

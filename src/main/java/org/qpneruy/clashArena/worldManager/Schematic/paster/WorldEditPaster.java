@@ -34,8 +34,8 @@ public class WorldEditPaster extends AbstractSchematicPaster {
         Objects.requireNonNull(location.getWorld(), "Location world cannot be null");
 
         return CompletableFuture.runAsync(() -> {
+            adjustLocation(location);
             ClipboardData clipboardData = loadClipboardAndWorld(file, location);
-
             try (EditSession editSession = WorldEdit.getInstance().newEditSession(clipboardData.worldEditWorld())) {
                 Operation operation = new ClipboardHolder(clipboardData.clipboard())
                         .createPaste(editSession)

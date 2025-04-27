@@ -35,11 +35,10 @@ public class FawePaster extends AbstractSchematicPaster {
         Objects.requireNonNull(location.getWorld(), "Location world cannot be null");
 
         return CompletableFuture.runAsync(() -> {
-            ClipboardData clipboardData = loadClipboardAndWorld(file, location);
 
+            ClipboardData clipboardData = loadClipboardAndWorld(file, location);
             synchronized (mutex) {
-                EditSession editSession = WorldEdit.getInstance().newEditSession(clipboardData.worldEditWorld() );
-                try {
+                try (EditSession editSession = WorldEdit.getInstance().newEditSession(clipboardData.worldEditWorld())) {
                     Operation operation = new ClipboardHolder(clipboardData.clipboard())
                             .createPaste(editSession)
                             .to(BlockVector3.at(location.getX(), location.getY(), location.getZ()))
@@ -54,8 +53,6 @@ public class FawePaster extends AbstractSchematicPaster {
                 } catch (WorldEditException e) {
                     ClashArenaLogger.log(Level.SEVERE, "Error during FAWE paste operation for: " + file.getName() + "\n" + e);
                     throw new CompletionException("FAWE paste operation failed", e);
-                } finally {
-                    editSession.close();
                 }
             }
         }, executorService).exceptionally(ex -> {

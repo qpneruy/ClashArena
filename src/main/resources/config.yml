@@ -1,0 +1,24 @@
+# author: qpneruy, version: 27.4.2025
+# do not change this value, it is used to make color.
+version: 1.0.0
+
+#this config is very important, please do not change it if you don't know what you are doing
+TinhDepTrai: true
+
+# The name speaks for itself.
+language: vn
+
+Schematic:
+  # This configuration specifies the schematic pasting tool to be used.
+  # The possible values are worldedit, fawe, or async.
+  # If not specified, the default value is async.
+  paster: worldedit
+
+
+  # This configuration sets the maximum number of blocks that will be pasted per tick.
+  # The default value is: 10. (Only Works with async paster)
+  LimitPerTick: 10
+
+  # This configuration sets the delay between each block paste operation, measured in ticks.
+  # The default value is: 1. (Only Works with async paster)
+  delayTick: 1

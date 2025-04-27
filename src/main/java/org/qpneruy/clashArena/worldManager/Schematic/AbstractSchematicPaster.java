@@ -49,10 +49,10 @@ public abstract class AbstractSchematicPaster implements SchematicPaster {
         com.sk89q.worldedit.world.World weWorld = BukkitAdapter.adapt(bukkitWorld);
         return new ClipboardData(clipboard, weWorld);
     }
-    protected void adjustLocation(Location location, int width, int height, int length) {
-        int newLength = (int) (length / 2.00);
-        int newWidth = (int) (width / 2.00);
-        int newHeight = (int) (height / 2.00);
+    protected void adjustLocation(Location location) {
+        int newLength = (int) (location.getBlockX() / 2.00);
+        int newWidth = (int) (location.getBlockZ() / 2.00);
+        int newHeight = (int) (location.getBlockY() / 2.00);
         location.subtract(newWidth, newHeight, newLength);
     }
 
