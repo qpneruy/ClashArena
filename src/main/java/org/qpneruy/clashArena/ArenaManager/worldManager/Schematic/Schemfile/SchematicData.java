@@ -1,4 +1,4 @@
-package org.qpneruy.clashArena.worldManager.Schematic.Schemfile;
+package org.qpneruy.clashArena.ArenaManager.worldManager.Schematic.Schemfile;
 
 import lombok.AllArgsConstructor;
 import org.jnbt.*;

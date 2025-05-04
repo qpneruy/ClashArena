@@ -1,6 +1,5 @@
 package org.qpneruy.clashArena.commands;
 
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.menu.enums.Menu;
 
-import java.io.File;
 import java.util.Objects;
 
 public class ClashArenaCmd implements CommandExecutor {
@@ -20,22 +18,26 @@ public class ClashArenaCmd implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-//        String id = ClashArena.instance.getWorldManager().createWorld((Player) sender);
-//        Location location = ClashArena.instance.getWorldManager().getWorld(id).getSpawnLocation();
-//
-//
-//        ClashArena.instance.getSchematicPasterManager().getSchematicPaster().paste(new File("/home/qpneruy/IdeaProjects/ClashArena/src/main/java/org/qpneruy/clashArena/nether_arena.schem"), location, true).thenAccept(aVoid -> {
-//            System.out.println("chayroi");
-//        });
-//        ((Player) sender).teleport(location);
-        System.out.println("Open main menu");
-        if (!(sender instanceof Player player)) return true;
-        if (!sender.hasPermission("clasharena.use")) {
-            sender.sendMessage("§cYou don't have permission to use this command.");
-            return true;
-        }
 
-        ClashArena.instance.getMenuManager().openMenu(player, Menu.UNDEFINED);
+        Player player = (Player) sender;
+        ClashArena.instance.getArenaManager().createArena(player, "nether_arena")
+                .thenAccept(result -> {
+                    if (result.success()) {
+                        player.teleport(result.spawnLocation());
+                        player.sendMessage("Arena created successfully!");
+                    } else {
+                        player.sendMessage("Failed to create arena!");
+                    }
+                });
+
+//        System.out.println("Open main menu");
+//        if (!(sender instanceof Player player)) return true;
+//        if (!sender.hasPermission("clasharena.use")) {
+//            sender.sendMessage("§cYou don't have permission to use this command.");
+//            return true;
+//        }
+
+//        ClashArena.instance.getMenuManager().openMenu(player, Menu.UNDEFINED);
 //        return true;
 //        switch (args[0]) {
 //            case "up" -> {

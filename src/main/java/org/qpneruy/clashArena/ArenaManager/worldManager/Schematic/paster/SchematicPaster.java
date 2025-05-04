@@ -1,4 +1,4 @@
-package org.qpneruy.clashArena.worldManager.Schematic.paster;
+package org.qpneruy.clashArena.ArenaManager.worldManager.Schematic.paster;
 
 import org.bukkit.Location;
 

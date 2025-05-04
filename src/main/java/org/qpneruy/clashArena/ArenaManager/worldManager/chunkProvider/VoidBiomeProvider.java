@@ -1,4 +1,4 @@
-package org.qpneruy.clashArena.worldManager.chunkProvider;
+package org.qpneruy.clashArena.ArenaManager.worldManager.chunkProvider;
 
 import org.bukkit.block.Biome;
 import org.bukkit.generator.BiomeProvider;

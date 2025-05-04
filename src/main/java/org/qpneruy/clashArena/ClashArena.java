@@ -6,6 +6,7 @@ import com.alessiodp.parties.api.Parties;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.qpneruy.clashArena.ArenaManager.ArenaManager;
 import org.qpneruy.clashArena.Party.AlessioDPPartyAdapter;
 import org.qpneruy.clashArena.Party.IPartyAdapter;
 import org.qpneruy.clashArena.Party.PartyManager;
@@ -20,8 +21,8 @@ import org.qpneruy.clashArena.menu.events.MenuEventListener;
 import org.qpneruy.clashArena.menu.manager.MenuManager;
 import org.qpneruy.clashArena.utils.ClashArenaLogger;
 import org.qpneruy.clashArena.utils.enums.ConsoleColor;
-import org.qpneruy.clashArena.worldManager.Schematic.SchematicPasterManager;
-import org.qpneruy.clashArena.worldManager.worldManager;
+import org.qpneruy.clashArena.ArenaManager.worldManager.Schematic.SchematicPasterManager;
+import org.qpneruy.clashArena.ArenaManager.worldManager.WorldManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +39,8 @@ public final class ClashArena extends JavaPlugin {
 
     private MenuManager menuManager;
     private PartyManager partyManager;
-    private worldManager worldManager;
+    private WorldManager worldManager;
+    private ArenaManager arenaManager;
     private SchematicPasterManager schematicPasterManager;
     private ArenaPlayerManager ArenaPlayerManager;
 
@@ -68,9 +70,10 @@ public final class ClashArena extends JavaPlugin {
     private void initializeService() {
         menuManager = new MenuManager();
         partyManager = new PartyManager();
-        worldManager = new worldManager();
+        worldManager = new WorldManager();
         ArenaPlayerStore = new ArenaPlayerRepository();
         ArenaPlayerManager = new ArenaPlayerManager();
+        arenaManager = new ArenaManager(worldManager, schematicPasterManager);
     }
 
     private void registerCommands() {
@@ -96,7 +99,7 @@ public final class ClashArena extends JavaPlugin {
                 ClashArenaLogger.info(pluginName + ": " + ConsoleColor.GREEN + "hooked!");
                 switch (pluginName) {
                     case "Parties" -> parties = new AlessioDPPartyAdapter(Parties.getApi());
-                    case "WorldEdit" -> schematicPasterManager = new SchematicPasterManager();
+//                    case "WorldEdit" -> schematicPasterManager = new SchematicPasterManager();
                 }
             } else {
                 ClashArenaLogger.info(pluginName + ": " + ConsoleColor.RED + "not found!");
@@ -113,6 +116,7 @@ public final class ClashArena extends JavaPlugin {
         Bukkit.getServer().getOnlinePlayers().forEach(
                 player -> ArenaPlayerStore.save(ArenaPlayerManager.computeArenaPlayer(player.getUniqueId())));
         this.ArenaPlayerStore.close();
+        this.arenaManager.shutdown();
     }
 
     private String getVersion() {

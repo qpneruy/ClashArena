@@ -1,4 +1,4 @@
-package org.qpneruy.clashArena.worldManager.Schematic;
+package org.qpneruy.clashArena.ArenaManager.worldManager.Schematic;
 
 import com.sk89q.worldedit.extension.platform.Capability;
 import com.sk89q.worldedit.extension.platform.Platform;
@@ -7,9 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.utils.ClashArenaLogger;
-import org.qpneruy.clashArena.worldManager.Schematic.paster.FawePaster;
-import org.qpneruy.clashArena.worldManager.Schematic.paster.SchematicPaster;
-import org.qpneruy.clashArena.worldManager.Schematic.paster.WorldEditPaster;
+import org.qpneruy.clashArena.ArenaManager.worldManager.Schematic.paster.FawePaster;
+import org.qpneruy.clashArena.ArenaManager.worldManager.Schematic.paster.SchematicPaster;
+import org.qpneruy.clashArena.ArenaManager.worldManager.Schematic.paster.WorldEditPaster;
 
 import java.util.Map;
 import java.util.concurrent.*;

@@ -1,4 +1,4 @@
-package org.qpneruy.clashArena.worldManager.Schematic.paster;
+package org.qpneruy.clashArena.ArenaManager.worldManager.Schematic.paster;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -9,7 +9,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import org.bukkit.Location;
 import org.qpneruy.clashArena.utils.ClashArenaLogger;
-import org.qpneruy.clashArena.worldManager.Schematic.AbstractSchematicPaster;
+import org.qpneruy.clashArena.ArenaManager.worldManager.Schematic.AbstractSchematicPaster;
 
 import java.io.File;
 import java.util.Objects;

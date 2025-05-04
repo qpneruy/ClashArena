@@ -1,4 +1,4 @@
-package org.qpneruy.clashArena.worldManager.Schematic;
+package org.qpneruy.clashArena.ArenaManager.worldManager.Schematic;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
@@ -8,7 +8,7 @@ import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.qpneruy.clashArena.utils.ClashArenaLogger;
-import org.qpneruy.clashArena.worldManager.Schematic.paster.SchematicPaster;
+import org.qpneruy.clashArena.ArenaManager.worldManager.Schematic.paster.SchematicPaster;
 
 import java.io.File;
 import java.io.FileInputStream;

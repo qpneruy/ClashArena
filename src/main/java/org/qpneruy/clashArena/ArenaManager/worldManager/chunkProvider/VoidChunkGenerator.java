@@ -1,4 +1,4 @@
-package org.qpneruy.clashArena.worldManager.chunkProvider;
+package org.qpneruy.clashArena.ArenaManager.worldManager.chunkProvider;
 
 import org.bukkit.Location;
 import org.bukkit.World;
