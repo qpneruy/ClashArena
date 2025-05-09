@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class ArenaPlayerManager {
-    private Map<UUID, ArenaPlayer> players = new HashMap<>();
+    private final Map<UUID, ArenaPlayer> players = new HashMap<>();
 
 
     public ArenaPlayer computeArenaPlayer(UUID uuid) {

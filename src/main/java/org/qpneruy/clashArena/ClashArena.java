@@ -13,7 +13,7 @@ import org.qpneruy.clashArena.Party.PartyManager;
 import org.qpneruy.clashArena.commands.ClashArenaCmd;
 import org.qpneruy.clashArena.commands.ClashArenaCompleter;
 import org.qpneruy.clashArena.data.ArenaPlayerManager;
-import org.qpneruy.clashArena.data.ArenaPlayerRepository;
+import org.qpneruy.clashArena.data.ArenaPlayerRepo;
 import org.qpneruy.clashArena.events.onPlayerJoin;
 import org.qpneruy.clashArena.events.onPlayerQuit;
 import org.qpneruy.clashArena.menu.Gui.mainMenu.MainMenu;
@@ -45,7 +45,7 @@ public final class ClashArena extends JavaPlugin {
     private ArenaPlayerManager ArenaPlayerManager;
 
     private MainMenu mainMenu;
-    private ArenaPlayerRepository ArenaPlayerStore;
+    private ArenaPlayerRepo ArenaPlayerStore;
 
     @Override
     public void onEnable() {
@@ -71,7 +71,7 @@ public final class ClashArena extends JavaPlugin {
         menuManager = new MenuManager();
         partyManager = new PartyManager();
         worldManager = new WorldManager();
-        ArenaPlayerStore = new ArenaPlayerRepository();
+        ArenaPlayerStore = new ArenaPlayerRepo();
         ArenaPlayerManager = new ArenaPlayerManager();
         arenaManager = new ArenaManager(worldManager, schematicPasterManager);
     }

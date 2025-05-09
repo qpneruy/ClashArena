@@ -22,6 +22,7 @@ org/qpneruy/clashArena/ArenaManager/worldManager/chunkProvider/VoidChunkGenerato
 org/qpneruy/clashArena/ArenaManager/worldManager/Schematic/SchematicPasterManager.class
 org/qpneruy/clashArena/menu/Gui/Setting.class
 org/qpneruy/clashArena/menu/Gui/Request/handleRequest.class
+org/qpneruy/clashArena/data/databaseManager/DatabaseManager.class
 org/qpneruy/clashArena/menu/events/MenuEventListener.class
 org/qpneruy/clashArena/menu/Gui/Request/Request.class
 org/jnbt/EndTag.class

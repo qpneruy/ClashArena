@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.qpneruy.clashArena.ClashArena;
 import org.qpneruy.clashArena.data.ArenaPlayerManager;
-import org.qpneruy.clashArena.data.ArenaPlayerRepository;
+import org.qpneruy.clashArena.data.ArenaPlayerRepo;
 import org.qpneruy.clashArena.menu.core.AbstractMenu;
 import org.qpneruy.clashArena.menu.enums.Menu;
 import org.qpneruy.clashArena.model.ArenaPlayer;
@@ -15,9 +15,9 @@ import java.util.Map;
 
 public class onPlayerQuit implements Listener {
     ArenaPlayerManager ArenaPlayerManager;
-    ArenaPlayerRepository ArenaPlayerStore;
+    ArenaPlayerRepo ArenaPlayerStore;
 
-    public onPlayerQuit(ArenaPlayerManager arenaPlayerManager, ArenaPlayerRepository arenaPlayerStore) {
+    public onPlayerQuit(ArenaPlayerManager arenaPlayerManager, ArenaPlayerRepo arenaPlayerStore) {
         this.ArenaPlayerManager = arenaPlayerManager;
         this.ArenaPlayerStore = arenaPlayerStore;
         Bukkit.getPluginManager().registerEvents(this, ClashArena.instance);

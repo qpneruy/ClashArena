@@ -38,7 +38,7 @@ org.h2.jdbc.JdbcSQLNonTransientException: Unknown data type: "UNIQUE_ID"; SQL st
 	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:315)
 	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:328)
 	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java)
-	at org.qpneruy.clashArena.data.ArenaPlayerRepository.save(ArenaPlayerRepository.java:52)
+	at org.qpneruy.clashArena.data.ArenaPlayerRepo.save(ArenaPlayerRepository.java:52)
 	at org.qpneruy.clashArena.data.t.main(t.java:16)
 2025-03-23 17:48:20.991090+07:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: Unknown data type: "UNIQUE_ID"; SQL statement:
@@ -74,7 +74,7 @@ org.h2.jdbc.JdbcSQLNonTransientException: Unknown data type: "UNIQUE_ID"; SQL st
 	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:315)
 	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:328)
 	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java)
-	at org.qpneruy.clashArena.data.ArenaPlayerRepository.save(ArenaPlayerRepository.java:52)
+	at org.qpneruy.clashArena.data.ArenaPlayerRepo.save(ArenaPlayerRepository.java:52)
 	at org.qpneruy.clashArena.data.t.main(t.java:16)
 2025-03-23 17:52:05.444672+07:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: Unknown data type: "UNIQUE_ID"; SQL statement:
@@ -110,7 +110,7 @@ org.h2.jdbc.JdbcSQLNonTransientException: Unknown data type: "UNIQUE_ID"; SQL st
 	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:315)
 	at com.zaxxer.hikari.pool.ProxyConnection.prepareStatement(ProxyConnection.java:328)
 	at com.zaxxer.hikari.pool.HikariProxyConnection.prepareStatement(HikariProxyConnection.java)
-	at org.qpneruy.clashArena.data.ArenaPlayerRepository.save(ArenaPlayerRepository.java:52)
+	at org.qpneruy.clashArena.data.ArenaPlayerRepo.save(ArenaPlayerRepository.java:52)
 	at org.qpneruy.clashArena.data.t.main(t.java:16)
 2025-03-23 10:52:54 jdbc[3]: exception
 java.sql.SQLClientInfoException: Client info name 'ApplicationName' not supported.
@@ -193,7 +193,7 @@ org.h2.message.DbException: General error: "org.h2.mvstore.MVStoreException: The
 	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:572)
 	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:101)
 	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:80)
-	at org.qpneruy.clashArena.data.DatabaseManager.lambda$initializeDataSource$0(DatabaseManager.java:48)
+	at org.qpneruy.clashArena.data.databaseManager.DatabaseManager.lambda$initializeDataSource$0(DatabaseManager.java:48)
 	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
 	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760)
 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
@@ -255,7 +255,7 @@ org.h2.message.DbException: General error: "org.h2.mvstore.MVStoreException: The
 	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:572)
 	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:101)
 	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:80)
-	at org.qpneruy.clashArena.data.DatabaseManager.lambda$initializeDataSource$0(DatabaseManager.java:48)
+	at org.qpneruy.clashArena.data.databaseManager.DatabaseManager.lambda$initializeDataSource$0(DatabaseManager.java:48)
 	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
 	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760)
 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)

@@ -1,12 +1,12 @@
 package org.qpneruy.clashArena.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.qpneruy.clashArena.ClashArena;
-import org.qpneruy.clashArena.menu.enums.Menu;
 
 import java.util.Objects;
 
@@ -18,13 +18,24 @@ public class ClashArenaCmd implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-
+        if (args[0].equalsIgnoreCase("DeleteWorld") && sender instanceof Player) {
+            if (!sender.hasPermission("clasharena.deleteworld")) {
+                sender.sendMessage("§cYou don't have permission to use this command.");
+                return true;
+            }
+//            World currentWorld = ((Player) sender).getWorld();
+//            ClashArena.instance.getArenaManager().deleteArena();
+//            sender.sendMessage("§aWorld " + worldName + " deleted successfully.");
+            return true;
+        }
         Player player = (Player) sender;
         ClashArena.instance.getArenaManager().createArena(player, "nether_arena")
                 .thenAccept(result -> {
                     if (result.success()) {
-                        player.teleport(result.spawnLocation());
-                        player.sendMessage("Arena created successfully!");
+                        Bukkit.getScheduler().runTask(ClashArena.instance, () -> {
+                            player.teleport(result.spawnLocation());
+                            player.sendMessage("Arena created successfully!");
+                        });
                     } else {
                         player.sendMessage("Failed to create arena!");
                     }
