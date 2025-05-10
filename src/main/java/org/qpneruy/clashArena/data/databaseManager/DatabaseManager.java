@@ -29,8 +29,6 @@ public class DatabaseManager {
 
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(dbUrl);
-            config.setUsername("sa");
-            config.setPassword("");
 
             config.setMaximumPoolSize(10);
             config.setMinimumIdle(2);
@@ -47,7 +45,7 @@ public class DatabaseManager {
                 return ds;
             } catch (Exception e) {
                 ClashArena.instance.getLogger().log(Level.SEVERE, "Failed to create HikariDataSource for: " + path, e);
-                throw new RuntimeException("Failed to create HikariDataSource for: " + path, e); // Để CompletableFuture fail
+                throw new RuntimeException("Failed to create HikariDataSource for: " + path, e);
             }
         }));
     }

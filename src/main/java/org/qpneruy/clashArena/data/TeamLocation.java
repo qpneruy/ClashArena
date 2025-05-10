@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.qpneruy.clashArena.model.ArenaPlayer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class TeamLocation {
@@ -23,6 +24,10 @@ public class TeamLocation {
             Location location = teamLocations.get(player);
             Objects.requireNonNull(Bukkit.getPlayer(player.getUniqueId())).teleport(location);
         }
+    }
+
+    public List<Location> getTeamLocations() {
+        return List.copyOf(teamLocations.values());
     }
 
     public void Dispose() {

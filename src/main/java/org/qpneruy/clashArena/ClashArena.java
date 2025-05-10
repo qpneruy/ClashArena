@@ -14,6 +14,7 @@ import org.qpneruy.clashArena.commands.ClashArenaCmd;
 import org.qpneruy.clashArena.commands.ClashArenaCompleter;
 import org.qpneruy.clashArena.data.ArenaPlayerManager;
 import org.qpneruy.clashArena.data.ArenaPlayerRepo;
+import org.qpneruy.clashArena.data.databaseManager.SchematicLocationRepo;
 import org.qpneruy.clashArena.events.onPlayerJoin;
 import org.qpneruy.clashArena.events.onPlayerQuit;
 import org.qpneruy.clashArena.menu.Gui.mainMenu.MainMenu;
@@ -24,6 +25,7 @@ import org.qpneruy.clashArena.utils.enums.ConsoleColor;
 import org.qpneruy.clashArena.ArenaManager.worldManager.Schematic.SchematicPasterManager;
 import org.qpneruy.clashArena.ArenaManager.worldManager.WorldManager;
 
+import javax.xml.validation.Schema;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,7 +47,7 @@ public final class ClashArena extends JavaPlugin {
     private ArenaPlayerManager ArenaPlayerManager;
 
     private MainMenu mainMenu;
-    private ArenaPlayerRepo ArenaPlayerStore;
+    private ArenaPlayerRepo ArenaPlayerStore;    private SchematicLocationRepo SchematicLocationRepo;
 
     @Override
     public void onEnable() {
@@ -72,6 +74,7 @@ public final class ClashArena extends JavaPlugin {
         partyManager = new PartyManager();
         worldManager = new WorldManager();
         ArenaPlayerStore = new ArenaPlayerRepo();
+        SchematicLocationRepo = new SchematicLocationRepo();
         ArenaPlayerManager = new ArenaPlayerManager();
         arenaManager = new ArenaManager(worldManager, schematicPasterManager);
     }
